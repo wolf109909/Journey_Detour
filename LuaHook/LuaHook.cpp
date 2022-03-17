@@ -5,6 +5,7 @@
 #include <windows.h>
 #include <iostream>
 #include <iomanip>
+#include <string>
 #include <stdio.h>
 #include <stdlib.h>
 #include "MinHook.h"
@@ -63,15 +64,129 @@ _close_state close_state = (_close_state)0x14031FB30;
 _lua_debugdostring lua_debugdostring = (_lua_debugdostring)0x1402D7460;
 typedef LONG(NTAPI* NtSuspendProcess)(IN HANDLE ProcessHandle);
 typedef LONG(NTAPI* NtResumeProcess)(IN HANDLE ProcessHandle);
+int luastatus;
+bool isNetGUIEnabled = false;
+bool commandfound = false;
+HANDLE consoleInputThreadHandle = NULL;
+//const char* Console_luaScriptCommandName = "script";
 
 
+
+DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
+{
+	
+	FILE* fp = nullptr;
+	freopen_s(&fp, "CONIN$", "r", stdin);
+
+	std::cout << "Ready to receive console commands." << std::endl;	
+
+	{
+		// Process console input
+		std::string input;
+		while (std::getline(std::cin, input))
+		{
+			input += "\n";
+			//std::cout << input << std::endl;
+			
+			const char* command = strtok((char*)input.c_str(), " ");
+			std::string strcommand = command;
+			
+			//std::cout << "command:" << command << std::endl;
+			if (!strcmp(command,"script"))
+			{
+				try {
+
+					input = input.substr(7);
+
+				}
+
+				catch (std::out_of_range&) {
+
+					std::cout << "script error: no input given!" << std::endl;
+					
+				}
+
+				//std::cout << "codestring:" << input << std::endl;
+				luaL_loadstring_f(new_lua_State_ptr, input.c_str());
+				luastatus = lua_pcallk_f(new_lua_State_ptr, 0, -1, 0, 0, NULL);
+				std::cout << "execute status:" << luastatus << std::endl;
+				input.clear();
+				commandfound = true;
+			}
+			
+			
+			if(!strcmp(command, "queuelevel"))
+			{
+				try {
+
+					input = input.substr(11);
+
+				}
+
+				catch (std::out_of_range&) {
+
+					std::cout << "queuelevel error: no input given!" << std::endl;
+
+				}
+
+				input = "game:QueueLevel(\"" + input.substr(0, input.size() - 1) + "\")";
+
+				std::cout << input << std::endl;
+				luaL_loadstring_f(new_lua_State_ptr, input.c_str());
+				luastatus = lua_pcallk_f(new_lua_State_ptr, 0, -1, 0, 0, NULL);
+				std::cout << "execute status:" << luastatus << std::endl;
+				input.clear();
+				commandfound = true;
+			}
+			
+			if (!strcmp(strcommand.substr(0, strcommand.size() - 1).c_str(), "netgui"))
+			{
+				
+				luaL_loadstring_f(new_lua_State_ptr, "game:netGui():ToggleEnabled()") || lua_pcallk_f(new_lua_State_ptr, 0, -1, 0, 0, NULL);
+				isNetGUIEnabled = !isNetGUIEnabled;
+				input.clear();
+				commandfound = true;
+			}
+			
+			
+			
+			if (commandfound == false) 
+			{
+				std::cout << "command not found!" << std::endl;
+				commandfound = false;
+			}
+			
+		}
+	}
+
+	return 0;
+}
 void ConsoleSetup()
 {
+
 	AllocConsole();
 	SetConsoleTitle("[+] Journey lua hook test");
 	freopen("CONOUT$", "w", stdout);
 	freopen("CONOUT$", "w", stderr);
-	freopen("CONIN$", "r", stdin);
+	//freopen("CONIN$", "r", stdin);
+
+	HANDLE stdIn = GetStdHandle(STD_INPUT_HANDLE);
+	DWORD mode = 0;
+
+	if (GetConsoleMode(stdIn, &mode))
+	{
+		if (mode & ENABLE_QUICK_EDIT_MODE)
+		{
+			mode &= ~ENABLE_QUICK_EDIT_MODE;
+			mode &= ~ENABLE_MOUSE_INPUT;
+
+			mode |= ENABLE_PROCESSED_INPUT;
+			SetConsoleMode(stdIn, mode);
+		}
+
+	}
+	
+
 	std::cout << "Injecting..." << std::endl;
 	//std::cout << baseAddress << std::endl; 
 	//std::cout << newthreadptr << std::endl;
@@ -233,7 +348,7 @@ int detourLuaState()
 
 int refKey = 0;
 
-lua_State* CreateThread()
+lua_State* luaCreateThread()
 {
 	newThread lua_newthread_f = (newThread)newthreadptr;
 	//newThread lua_newthread_f = (newThread)newthreadptr;
@@ -296,11 +411,23 @@ int WINAPI main()
 	
 	
 	// to juesto: uncomment this if you want to try running code from a new luastate. also change the two function calls using lua_state_ptr to new_ptr.
-	new_lua_State_ptr = CreateThread();
+	new_lua_State_ptr = luaCreateThread();
 	//luaL_loadfilex_f(new_lua_State_ptr, "main.lua", NULL) || lua_pcallk_f(new_lua_State_ptr, 0, -1, 0, 0, NULL);
+	
+	
+	consoleInputThreadHandle = CreateThread(0, 0, ConsoleInputThread, 0, 0, NULL);
+	
+	luaL_loadstring_f(new_lua_State_ptr, "Vars.Game.cheatsEnabled(true)") || lua_pcallk_f(new_lua_State_ptr, 0, -1, 0, 0, NULL);
 	
 	while (true)
 	{
+		int status;
+		if (GetAsyncKeyState(VK_RETURN) & 1 && isNetGUIEnabled)
+		{
+			luaL_loadstring_f(new_lua_State_ptr, "game:netGui():ExecuteSelectedItem(game)") || lua_pcallk_f(new_lua_State_ptr, 0, -1, 0, 0, NULL);
+			
+
+		}
 		if (GetAsyncKeyState(VK_F9) & 1)
 		{
 			luaL_loadfilex_f(new_lua_State_ptr, "main.lua", NULL) || lua_pcallk_f(new_lua_State_ptr, 0, -1, 0,0,NULL);
@@ -330,19 +457,22 @@ int WINAPI main()
 		}
 		if (GetAsyncKeyState(VK_F6) & 1)
 		{
-			lua_debugdostring(new_lua_State_ptr, "dofile('main.lua')");
-			std::cout << "[!] lua_debugdostring called!" << std::endl;
+			char luacodestring[128] = { 0 };
+			std::cout << "please input lua string:" << std::endl;
+			std::cin.getline(luacodestring,128);
+			luaL_loadstring_f(new_lua_State_ptr, luacodestring);
+			std::cout << "codestring:" << luacodestring << std::endl;
+			status = lua_pcallk_f(new_lua_State_ptr, 0, -1, 0, 0, NULL);
+			std::cout << "execute status:" << status << std::endl;
+			//luacodestring = 0;
 
-			//std::cout << "[+] LuaStatus: " << val.lua_status_p(lua_State_ptr) << std::endl;
-			//std::cout << "[+] New LuaStatus: " << val.lua_status_p(new_lua_State_ptr) << std::endl;
 		}
 		if (GetAsyncKeyState(VK_F5) & 1)
 		{
-			lua_debugdostring(new_lua_State_ptr, "game:debugHud():CycleMode()");
-			std::cout << "[!] lua_debugdostring called!" << std::endl;
-
-			//std::cout << "[+] LuaStatus: " << val.lua_status_p(lua_State_ptr) << std::endl;
-			//std::cout << "[+] New LuaStatus: " << val.lua_status_p(new_lua_State_ptr) << std::endl;
+			luaL_loadstring_f(new_lua_State_ptr, "game:debugHud():CycleMode()");
+			status = lua_pcallk_f(new_lua_State_ptr, 0, -1, 0, 0, NULL);
+			std::cout << status << std::endl;
+			std::cout << "[!] Switching debugHud mode." << std::endl;
 		}
 		Sleep(100);
 	}
