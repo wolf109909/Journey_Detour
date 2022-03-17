@@ -16,12 +16,20 @@
 #elif defined _M_IX86
 #pragma comment(lib, "libMinHook-x86-v141-mdd.lib")
 #endif
+
+
+bool luaStateObtained = false;
+
+
 typedef void* lua_State;
 // LUA STATE HOOK DEFINITIONS
 uint64_t baseAddress = 0;
 uintptr_t targetFunction = 0;
+uintptr_t printf_addr = 0;
+uintptr_t newthreadptr = 0;
 lua_State* lua_State_ptr = 0;
 lua_State* new_lua_State_ptr = 0;
+typedef void(__cdecl*_debug_print)(const char*);
 typedef int(__cdecl* gettop)(int);
 typedef lua_State* (__cdecl* newThread)(lua_State*);
 typedef void(__cdecl* pushinteger)(lua_State*, int);
@@ -30,9 +38,8 @@ typedef int(__cdecl* _luaStatus)(lua_State*);
 typedef int(__cdecl* _luaL_loadstring)(lua_State*, const char*);
 //typedef int(__cdecl *_lua_pcall)(lua_State *, int, int, int);
 
-
+_debug_print origTargetdebugprintFunction = NULL;
 gettop origTargetFunction = NULL;
-
 typedef int(*_lua_debugdostring)(lua_State*, const char*);
 typedef int(*_luaL_loadfilex)(lua_State* L, const char* filename, const char* mode);
 typedef int(*_lua_pcall)(lua_State* L, int nargs, int nresults, int errfunc);
@@ -45,11 +52,13 @@ typedef const char* lua_tostring_(lua_State* L, int32_t idx);
 typedef uint32_t lua_isstring_(lua_State* L, int32_t idx);
 typedef lua_State* lua_newthread_(lua_State* L);
 typedef void logPointer(std::string name, uint64_t pointer);
+//_debug_print debug_print = (_debug_print)0x0;
 _lua_pcallk lua_pcallk_f = (_lua_pcallk)0x14031C3D0;
 _luaL_loadstring luaL_loadstring_f = (_luaL_loadstring)0x14031E250;
 _lua_pcall lua_pcall_f = (_lua_pcall)0x1403278C0;
 _luaL_loadfilex luaL_loadfilex_f = (_luaL_loadfilex)0x14031DEA0;
-newThread lua_newthread_f = (newThread)0x14031F700;
+//DWORD newthreadptr = (uintptr_t)GetModuleHandle(NULL) + 0x31EB00;
+
 _close_state close_state = (_close_state)0x14031FB30;
 _lua_debugdostring lua_debugdostring = (_lua_debugdostring)0x1402D7460;
 typedef LONG(NTAPI* NtSuspendProcess)(IN HANDLE ProcessHandle);
@@ -64,6 +73,8 @@ void ConsoleSetup()
 	freopen("CONOUT$", "w", stderr);
 	freopen("CONIN$", "r", stdin);
 	std::cout << "Injecting..." << std::endl;
+	//std::cout << baseAddress << std::endl; 
+	//std::cout << newthreadptr << std::endl;
 }
 
 
@@ -82,7 +93,10 @@ DWORD _gettop(int state)
 			std::cout << "[+] Hook disabled" << std::endl;
 		}
 	}
-	return (*(DWORD*)(state + 0x18) - *(DWORD*)(state + 0x10)) >> 3;
+	luaStateObtained = true;
+	;
+	//return (*(DWORD*)(state + 0x18) - *(DWORD*)(state + 0x10)) >> 3;
+	return origTargetFunction(state);
 }
 
 
@@ -140,26 +154,34 @@ void printValues()
 {
 	std::cout << "targetFunction Addr: \t" << std::hex << targetFunction << std::endl;
 	std::cout << "newFunction Addr: \t" << std::hex << &_gettop << std::endl;
-	//std::cout << "fn luaL_loadstring_p: \t" << std::hex << val.luaL_loadstring_p << std::endl;
-	/*
-	std::cout << "fn lua_newthread_p: \t" << std::hex << val.lua_newthread_p << std::endl;
-	std::cout << "fn lua_pushinteger_p: \t" << std::hex << val.lua_pushinteger_p << std::endl;
-	std::cout << "fn lua_tointeger_p: \t" << std::hex << val.lua_tointeger_p << std::endl;
-	std::cout << "fn lua_status_p: \t" << std::hex << val.lua_status_p << std::endl;
+	//std::cout << "fn luaL_loadstring_p: \t" << std::hex << luaL_loadstring_p << std::endl;
+	
+	std::cout << "fn lua_newthread_p: \t" << std::hex << newthreadptr << std::endl;
+	//std::cout << "fn lua_pushinteger_p: \t" << std::hex << val.lua_pushinteger_p << std::endl;
+	//std::cout << "fn lua_tointeger_p: \t" << std::hex << val.lua_tointeger_p << std::endl;
+	//std::cout << "fn lua_status_p: \t" << std::hex << val.lua_status_p << std::endl;
 
-	std::cout << "fn lua_pcall_p: \t" << std::hex << val.lua_pcall_p << std::endl;
-	*/
+	//std::cout << "fn lua_pcall_p: \t" << std::hex << val.lua_pcall_p << std::endl;
+	
 }
 
-
+const char* __cdecl hooked_debug_print(const char* fmt ,...)
+{
+	
+	va_list args;
+	const char* buf;
+	va_start(args, fmt);
+	vprintf(fmt, args);
+	va_end(args);
+	return fmt;
+}
 
 int detourLuaState()
 {
-	//_gettop(lua_State); i don't think you need this but if you do you can just add it!
+	//_gettop(lua_State);//i don't think you need this but if you do you can just add it!
 	std::cout << "[+] Hooking targetFunction: " << (LPVOID)targetFunction << std::endl;
 
 
-	// Create a hook for MessageBoxW, in disabled state.
 	if (MH_CreateHook((LPVOID)targetFunction, &_gettop, reinterpret_cast<LPVOID*>(&origTargetFunction)) != MH_OK)
 	{
 		std::cout << "[-] Hooking failed" << std::endl;
@@ -172,13 +194,40 @@ int detourLuaState()
 	}
 	std::cout << "[+] Hooked enabled" << std::endl;
 	std::cout << "[+] origTargetFunction " << std::hex << origTargetFunction << std::endl;
-	return 0;
+
+	if (MH_CreateHook((LPVOID)printf_addr, &hooked_debug_print, reinterpret_cast<LPVOID*>(&origTargetdebugprintFunction)) != MH_OK)
+	{
+		std::cout << "[-] Hooking prinf failed" << std::endl;
+		return 1;
+	}
+	std::cout << "[+] DEBUG PRINT Hooked" << std::endl;
+	if (MH_EnableHook((LPVOID)printf_addr) != MH_OK)
+	{
+		return 1;
+	}
+	std::cout << "[+] Hooked enabled" << std::endl;
+	std::cout << "[+] printf_addr " << std::hex << printf_addr << std::endl;
 	/*
-	DetourTransactionBegin();
-	DetourUpdateThread(GetCurrentThread());
-	DetourAttach(&(LPVOID&)val.lua_gettop_p, (PBYTE)_gettop); // Detours the original lua_gettop_p with our _gettop
-	DetourTransactionCommit();
+	if (MH_CreateHook((LPVOID)newthread, &hooked_debug_print, reinterpret_cast<LPVOID*>(&origTargetdebugprintFunction)) != MH_OK)
+	{
+		std::cout << "[-] Hooking newthread failed" << std::endl;
+		return 1;
+	}
+	std::cout << "[+] newthread Hooked" << std::endl;
+	if (MH_EnableHook((LPVOID)newthread_addr) != MH_OK)
+	{
+		return 1;
+	}
+	std::cout << "[+] Hooked enabled" << std::endl;
+	std::cout << "[+] newthread_addr " << std::hex << printf_addr << std::endl;
 	*/
+	return 0;
+	
+	//DetourTransactionBegin();
+	//DetourUpdateThread(GetCurrentThread());
+	//DetourAttach(&(LPVOID&)val.lua_gettop_p, (PBYTE)_gettop); // Detours the original lua_gettop_p with our _gettop
+	//DetourTransactionCommit();
+	
 }
 
 
@@ -186,26 +235,49 @@ int refKey = 0;
 
 lua_State* CreateThread()
 {
+	newThread lua_newthread_f = (newThread)newthreadptr;
+	//newThread lua_newthread_f = (newThread)newthreadptr;
 	std::cout << "[+] Calling newThread" << std::endl;
 	lua_State* thread = (lua_newthread_f)(lua_State_ptr);
 	std::cout << "[+] New LuaState: " << thread << std::endl;
 
 	return thread;
-};
+}
 
 int WINAPI main()
 {
 	ConsoleSetup();
 
 	//newFunction = (gettop)_gettop;
-
+	//gettop
 	baseAddress = (uintptr_t)GetModuleHandle(NULL);
 	char* test = new char[14];
 	char* test2 = new char[14];
-	strcpy(test, "\x48\x89\x5C\x24\x08\x57\x48\x83\xEC\x30\x45\x33\xC9");
+	//strcpy(test, "\x48\x89\x5C\x24\x08\x57\x48\x83\xEC\x30\x45\x33\xC9");
+	strcpy(test, "\x48\x8B\x41\x20\x48\x8B\x51\x10\x48\x2B\x10\x48\x8D");
 	strcpy(test2, "xxxxxxxxxxxxx");
 	targetFunction = FindPattern(NULL, test, test2);
 
+	//some print func
+	char* debug_print_hex = new char[25];
+	char* debug_print_mask = new char[25];
+	strcpy(debug_print_hex, "\x48\x89\x4C\x24\x08\x48\x89\x54\x24\x10\x4C\x89\x44\x24\x18\x4C\x89\x4C\x24\x20\x53\x57\xB8\x48");
+	strcpy(debug_print_mask, "xxxxxxxxxxxxxxxxxxxxxxxx");
+	printf_addr = FindPattern(NULL, debug_print_hex, debug_print_mask);
+	
+	//newthread
+	char* newthreadhex = new char[25];
+	char* newthreadmask = new char[25];
+	strcpy(newthreadhex, "\x48\x89\x5C\x24\x08\x48\x89\x74\x24\x10\x57\x48\x83\xEC\x20\x48\x8B\x71\x18\x48\x8B\xF9\x48\x83");
+	strcpy(newthreadmask, "xxxxxxxxxxxxxxxxxxxxxxxx");
+	newthreadptr = FindPattern(NULL, newthreadhex, newthreadmask);
+	
+	
+	
+	//newThread lua_newthread_f = (newThread)newthread_addr;
+
+	
+	
 	printValues();
 
 	// Initialize MinHook.
@@ -216,9 +288,17 @@ int WINAPI main()
 
 	detourLuaState();
 
-	Sleep(5000);
+	
+	while (luaStateObtained == false)
+	{
+		Sleep(1000);
+	}
+	
+	
 	// to juesto: uncomment this if you want to try running code from a new luastate. also change the two function calls using lua_state_ptr to new_ptr.
 	new_lua_State_ptr = CreateThread();
+	//luaL_loadfilex_f(new_lua_State_ptr, "main.lua", NULL) || lua_pcallk_f(new_lua_State_ptr, 0, -1, 0, 0, NULL);
+	
 	while (true)
 	{
 		if (GetAsyncKeyState(VK_F9) & 1)
@@ -258,7 +338,7 @@ int WINAPI main()
 		}
 		if (GetAsyncKeyState(VK_F5) & 1)
 		{
-			lua_debugdostring(new_lua_State_ptr, "print('print test')");
+			lua_debugdostring(new_lua_State_ptr, "game:debugHud():CycleMode()");
 			std::cout << "[!] lua_debugdostring called!" << std::endl;
 
 			//std::cout << "[+] LuaStatus: " << val.lua_status_p(lua_State_ptr) << std::endl;
