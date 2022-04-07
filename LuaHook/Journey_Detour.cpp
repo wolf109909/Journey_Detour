@@ -49,7 +49,7 @@ typedef int(__cdecl* _luaL_loadstring)(lua_State*, const char*);
 typedef const char*(__cdecl* lua_tostring_)(lua_State*, int, size_t*);
 typedef int(__cdecl* _lua_getglobal)(lua_State*, const char*);
 typedef void(__cdecl* _lua_pushvalue)(lua_State*, int);
-
+typedef float(__cdecl* _drawdebugtext)(uintptr_t,const char*, float, uintptr_t, float, int);
 typedef int(__cdecl* _luaL_error)(lua_State* , const char* , ...);
 typedef void(__cdecl* _lua_settop)(lua_State* , int );
 //typedef int(__cdecl *_lua_pcall)(lua_State *, int, int, int);
@@ -91,6 +91,7 @@ _lua_pushvalue lua_pushvalue_f = (_lua_pushvalue)0x14031AF30;
 _lua_callk lua_callk_f = (_lua_callk)0x14031C340;
 _luaL_error luaL_error_f = (_luaL_error)0x14031DAA0;
 _lua_settop lua_settop_f = (_lua_settop)0x14031AEE0;
+_drawdebugtext drawdebugtext_f = (_drawdebugtext)0x14026EAA0;
 //DWORD newthreadptr = (uintptr_t)GetModuleHandle(NULL) + 0x31EB00;
 
 _close_state close_state = (_close_state)0x14031FB30;
@@ -156,6 +157,7 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
 				std::cout << "execute status:" << luastatus << std::endl;
 				input.clear();
 				commandfound = true;
+				lua_settop_f(new_lua_State_ptr, 0);
 			}
 			
 			
@@ -192,6 +194,27 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
 				commandfound = true;
 			}
 			
+
+			if (!strcmp(strcommand.substr(0, strcommand.size() - 1).c_str(), "test"))
+			{
+				std::cout << "Test function called!" << std::endl;
+				//uintptr_t debugtexta1 = 0x1400D3940;
+				//uintptr_t debugtexty = 0x1400A2E90;
+				//int debugtexta5 = 0xFFFFFF;
+				
+				//	drawdebugtext_f(debugtexta1, "Debug Print Test!!!",1, debugtexty ,1, debugtexta5);
+
+
+				int stacksize = origTargetFunction(new_lua_State_ptr);
+				std::cout << stacksize << std::endl;
+				
+				luaL_loadstring_f(new_lua_State_ptr,"SpawnEvent{ DisplayText = { text = \"THIS TEXT IS CALLED FROM LUA_DOFILE FROM C!\", x = 0, y = 0, duration = 3, fadeTime = 0.5, scale = 0.1 } }") || lua_pcallk_f(new_lua_State_ptr, 0, -1, 0, 0, NULL);
+				stacksize = origTargetFunction(new_lua_State_ptr);
+				std::cout << stacksize << std::endl;
+				input.clear();
+				commandfound = true;
+			}
+
 			
 			
 			if (commandfound == false) 
@@ -453,7 +476,7 @@ lua_State* luaCreateThread()
 int WINAPI main()
 {
 	ConsoleSetup();
-
+	InitializeLuaGUI();
 	//newFunction = (gettop)_gettop;
 	//gettop
 	baseAddress = (uintptr_t)GetModuleHandle(NULL);

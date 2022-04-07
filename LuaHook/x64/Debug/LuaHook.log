@@ -1,5 +1,2 @@
-﻿  LuaHook.cpp
-C:\Program Files (x86)\Steam\steamapps\common\Journey\ACTF\LuaHook\LuaHook.cpp(77,36): warning C4312: 'type cast': conversion from 'int' to 'lua_State *' of greater size
-C:\Program Files (x86)\Steam\steamapps\common\Journey\ACTF\LuaHook\LuaHook.cpp(85,34): warning C4312: 'type cast': conversion from 'int' to 'DWORD *' of greater size
-C:\Program Files (x86)\Steam\steamapps\common\Journey\ACTF\LuaHook\LuaHook.cpp(85,59): warning C4312: 'type cast': conversion from 'int' to 'DWORD *' of greater size
-  LuaHook.vcxproj -> C:\Program Files (x86)\Steam\steamapps\common\Journey\ACTF\x64\Debug\LuaHook.dll
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(510,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (LuaHook.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  LuaHook.vcxproj -> C:\Users\14862\Documents\GitHub\Journey_Detour\x64\Debug\Journey_Detour.dll

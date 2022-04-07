@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "cfd07110-9069-4497-8204-58be60943afd": {
+      "ProjectGuid": "cfd07110-9069-4497-8204-58be60943afd",
+      "DisplayName": "LuaHook",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
