@@ -1,5 +1,5 @@
 # Journey_Detour
-This project is a WIP.
+## This project is a WIP.
 
 Currently working functions:
 
@@ -11,7 +11,7 @@ Running lua code from within the console.
 
 Hotkeys(need to define in code).
 
-How to use:
+## How to use:
 
 Download the release dll or compile your own 
 
@@ -19,7 +19,7 @@ Inject the dll into journey.exe with any working injector.
 
 Such as: CheatEngine , Extreme Injector.
 
-console commands:
+## console commands:
 
 script : run Lua script code from console. | example: script ToggleDMActive(game)
 
@@ -29,7 +29,7 @@ netgui: toggles netgui. | example: netgui
 
 (you can now press enter to do netgui execute.)
 
-Update:
+## Update:
 
 Now redirects print() function in Lua to stdout. 
 
