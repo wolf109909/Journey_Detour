@@ -21,13 +21,13 @@ Such as: CheatEngine , Extreme Injector.
 
 ## console commands:
 
-script : run Lua script code from console. | example: script ToggleDMActive(game)
-
-queuelevel: load a map with map name. | example: queuelevel Level_Graveyard
-
-netgui: toggles netgui. | example: netgui
-
-(you can now press enter to do netgui execute.)
+1. meminfo(F3)     : Toggle memory info prints.              
+2. debug(F1)       : Run debugger function.                  
+3. debug <filename>: Debug target lua file.                  
+4. debughud(F8)    : Cycle through DebugHud.                 
+5. script <luacode>: Force Execute lua code to VM.(May crash)
+6. console(F7)     : Toggle console redirect                 
+7. help            : Print this screen again                 
 
 ## Update:
 
