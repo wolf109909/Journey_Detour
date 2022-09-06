@@ -151,7 +151,7 @@ void PollLuaMem()
 			__int64 consolehandle = getconsole_f(consolebuffer);
 			printluamem_f(consolehandle);
 			using namespace std::chrono_literals;
-			std::this_thread::sleep_for(100ms);
+			std::this_thread::sleep_for(200ms);
 		}
 	}
 }
@@ -200,12 +200,13 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
 	
 	std::cout << "     +===========================HELP============================+" << std::endl;
 	std::cout << "     | meminfo(F3)     : Toggle memory info prints.              |" << std::endl;
-	std::cout << "     | debug(F1)       : Run debugger function.                  |" << std::endl;
+	std::cout << "     | debug(F1)       : Run remove debugger function.           |" << std::endl;
 	std::cout << "     | debug <filename>: Debug target lua file.                  |" << std::endl;
 	std::cout << "     | debughud(F8)    : Cycle through DebugHud.                 |" << std::endl;
 	std::cout << "     | script <luacode>: Force Execute lua code to VM.(May crash)|" << std::endl;
 	std::cout << "     | console(F7)     : Toggle console redirect                 |" << std::endl;
 	std::cout << "     | help            : Print this screen again                 |" << std::endl;
+	std::cout << "     | clear           : Clear the console                       |" << std::endl;
 	std::cout << "     +===========================================================+" << std::endl;
 	std::cout << "\n\n[*] Ready to receive console commands." << std::endl;
 
@@ -243,6 +244,12 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
 
 				AppendLuaBuffer(input);
 
+				commandfound = true;
+			}
+
+			if (command == "clear")
+			{
+				system("cls");
 				commandfound = true;
 			}
 
@@ -312,12 +319,13 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
 			{
 				std::cout << "     +===========================HELP============================+" << std::endl;
 				std::cout << "     | meminfo(F3)     : Toggle memory info prints.              |" << std::endl;
-				std::cout << "     | debug(F1)       : Run debugger function.                  |" << std::endl;
+				std::cout << "     | debug(F1)       : Run remove debugger function.           |" << std::endl;
 				std::cout << "     | debug <filename>: Debug target lua file.                  |" << std::endl;
 				std::cout << "     | debughud(F8)    : Cycle through DebugHud.                 |" << std::endl;
 				std::cout << "     | script <luacode>: Force Execute lua code to VM.(May crash)|" << std::endl;
 				std::cout << "     | console(F7)     : Toggle console redirect                 |" << std::endl;
 				std::cout << "     | help            : Print this screen again                 |" << std::endl;
+				std::cout << "     | clear           : Clear the console                       |" << std::endl;
 				std::cout << "     +===========================================================+" << std::endl;
 				
 				
