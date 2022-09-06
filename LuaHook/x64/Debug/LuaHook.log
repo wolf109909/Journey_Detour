@@ -3,8 +3,7 @@
 C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(455,22): warning C4305: 'initializing': truncation from 'double' to 'float'
 C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(464,13): warning C4305: '-=': truncation from 'double' to 'float'
 C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(467,65): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(475,79): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(476,61): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(475,76): warning C4305: 'argument': truncation from 'double' to 'float'
 C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(597,14): warning C4101: 'buf': unreferenced local variable
 C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(770,7): warning C4101: 'status': unreferenced local variable
   LuaHook.vcxproj -> C:\Users\wolf109909\Documents\GitHub\Journey_Detour\x64\Debug\Journey_Detour.dll

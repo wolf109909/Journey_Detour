@@ -158,7 +158,7 @@ void PollLuaMem()
 
 void AppendLuaBuffer(std::string buffer)
 {
-	std::cout << buffer << std::endl;
+	//std::cout << buffer << std::endl;
 	m_LuaExecuteBuffer.push_back(buffer);
 }
 
@@ -174,7 +174,7 @@ void RunLuaBuffer()
 		{
 			std::cout << "ERROR: " << lua_tostring_f(new_lua_State_ptr, -1, NULL) << std::endl;
 		}
-		std::cout << "buffer executed" << std::endl;
+		//std::cout << "buffer executed" << std::endl;
 		m_LuaExecuteBuffer.erase(m_LuaExecuteBuffer.begin());
 	}
 	
@@ -471,9 +471,9 @@ void CustomTextDoRender()
 void NetGuiHook(__int64 a1, __int64 a2, float a3)
 {
 	// add custom text render barn here cuz the game will call it while queueing render is possible
-	CustomTextDoRender();
-	Addtext(gamerender, "RENDER TEST <9003> <9002>", -1.5, -1.0, 0.05, 0xFF0000FF);
-	Addtext(gamerender, " <9002>", -1.5, -0.9, 0.05, 0xFF0000FF);
+	//CustomTextDoRender();
+	Addtext(gamerender, "Journey_Detour_v1.0.1", -1.75, -1.0, 0.05, 0xFFFFFFFF);
+	//Addtext(gamerender, " <9002>", -1.5, -0.9, 0.05, 0xFF0000FF);
 
 	
 	
