@@ -1,5 +1,10 @@
-﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(514,5): warning MSB8028: 中间目录(x64\Debug\)包含从另一个项目(LuaHook.vcxproj)共享的文件。   这会导致错误的清除和重新生成行为。
-  stdafx.cpp
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(534,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (LuaHook.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Journey_Detour.cpp
-E:\Coding\Repositories\Journey_Detour\LuaHook\Journey_Detour.cpp(481,14): warning C4101: “buf”: 未引用的局部变量
-  LuaHook.vcxproj -> E:\Coding\Repositories\Journey_Detour\x64\Debug\Journey_Detour.dll
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(447,22): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(456,13): warning C4305: '-=': truncation from 'double' to 'float'
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(459,65): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(467,79): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(468,61): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(589,14): warning C4101: 'buf': unreferenced local variable
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(762,7): warning C4101: 'status': unreferenced local variable
+  LuaHook.vcxproj -> C:\Users\wolf109909\Documents\GitHub\Journey_Detour\x64\Debug\Journey_Detour.dll

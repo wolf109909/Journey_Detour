@@ -14,6 +14,8 @@
 #include <Psapi.h>
 #include <thread>
 #include <chrono>
+#include <random>
+#include <functional>
 //#pragma comment(lib, "lua53.lib")
 #if defined _M_X64
 #pragma comment(lib, "libMinHook-x64-v141-mdd.lib")
@@ -38,11 +40,15 @@ uint64_t baseAddress = 0;
 uintptr_t targetFunction = 0;
 uintptr_t printf_addr = 0;
 uintptr_t newthreadptr = 0;
+uintptr_t gamerender = 0;
 
 char consolebuffer[24];
-
+uintptr_t gamestructbase = 0;
 lua_State *lua_State_ptr = 0;
 lua_State *new_lua_State_ptr = 0;
+typedef void(__cdecl* _netgui)(__int64 a1, __int64 a2, float a3);
+typedef void(__cdecl* _gametick)(__int64 a1, float a2 );
+typedef int(__cdecl* _addtext)(__int64 a1, const char* text, float x, float y, float size, int color);
 typedef intptr_t lua_KContext;
 typedef __int64(__cdecl *_getconsole)(char *);
 typedef __int64(__cdecl *_printluamem)(__int64);
@@ -66,8 +72,10 @@ typedef void(__cdecl *_lua_settop)(lua_State *, int);
 uintptr_t luab_print_ptr = 0x140333040;
 // uintptr_t lua_getglobal_ptr = 0x14031BE70;
 
+_addtext Addtext = NULL;
 _luaB_print origLuaBPrintFunction = NULL;
-
+_netgui origNetGuiFunction = NULL;
+_gametick origGameTickFunction = NULL;
 _debug_print origTargetdebugprintFunction = NULL;
 gettop origTargetFunction = NULL;
 
@@ -86,6 +94,9 @@ typedef lua_State *lua_newthread_(lua_State *L);
 typedef void logPointer(std::string name, uint64_t pointer);
 
 //_debug_print debug_print = (_debug_print)0x0;
+_netgui BaseNetGui = (_netgui)0x14010DA00;
+_gametick BaseGameTick = (_gametick)0x1400DAD40;
+//_addtext Addtext = (_addtext)0x14026EAA0;
 _getconsole getconsole_f = (_getconsole)0x140316DC0;
 _printluamem printluamem_f = (_printluamem)0x1400F0B90;
 _lua_close lua_close_f = (_lua_close)0x14031F6E0;
@@ -111,6 +122,10 @@ bool isNetGUIEnabled = false;
 bool commandfound = false;
 HANDLE consoleInputThreadHandle = NULL;
 // const char* Console_luaScriptCommandName = "script";
+
+
+std::vector<std::string> m_LuaExecuteBuffer;
+
 
 lua_State *luaCreateThread()
 {
@@ -139,6 +154,30 @@ void PollLuaMem()
 			std::this_thread::sleep_for(100ms);
 		}
 	}
+}
+
+void AppendLuaBuffer(std::string buffer)
+{
+	std::cout << buffer << std::endl;
+	m_LuaExecuteBuffer.push_back(buffer);
+}
+
+void RunLuaBuffer()
+{
+	if (m_LuaExecuteBuffer.size() == 0)
+		return;
+
+	for (auto buffer : m_LuaExecuteBuffer)
+	{
+		luaL_loadstring_f(new_lua_State_ptr, buffer.c_str());
+		if (lua_pcallk_f(new_lua_State_ptr, 0, 0, 0, 0, NULL) != 0)
+		{
+			std::cout << "ERROR: " << lua_tostring_f(new_lua_State_ptr, -1, NULL) << std::endl;
+		}
+		std::cout << "buffer executed" << std::endl;
+		m_LuaExecuteBuffer.erase(m_LuaExecuteBuffer.begin());
+	}
+	
 }
 
 DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
@@ -173,6 +212,7 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
 	// initialize meminfo thread
 	std::thread debuginfothread(PollLuaMem);
 	debuginfothread.detach();
+
 	{
 		// Process console input
 		std::string input;
@@ -201,11 +241,8 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
 					continue;
 				}
 
-				luaL_loadstring_f(new_lua_State_ptr, (char *)input.c_str());
-				if (lua_pcallk_f(new_lua_State_ptr, 0, 0, 0, 0, NULL) != 0)
-				{
-					std::cout << "ERROR: " << lua_tostring_f(new_lua_State_ptr, -1, NULL) << std::endl;
-				}
+				AppendLuaBuffer(input);
+
 				commandfound = true;
 			}
 
@@ -225,16 +262,15 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
 				input = "game:QueueLevel(\"" + input.substr(0, input.size() - 1) + "\")";
 
 				std::cout << input << std::endl;
-				luaL_loadstring_f(new_lua_State_ptr, input.c_str());
-				luastatus = lua_pcallk_f(new_lua_State_ptr, 0, -1, 0, 0, NULL);
-				std::cout << "execute status:" << luastatus << std::endl;
+				AppendLuaBuffer(input);
 				input.clear();
 				commandfound = true;
 			}
 
 			if (command == "netgui")
 			{
-				luaL_loadstring_f(new_lua_State_ptr, "game:netGui():ToggleEnabled()") || lua_pcallk_f(new_lua_State_ptr, 0, 0, 0, 0, NULL);
+				//luaL_loadstring_f(new_lua_State_ptr, "game:netGui():ToggleEnabled()") || lua_pcallk_f(new_lua_State_ptr, 0, 0, 0, 0, NULL);
+				AppendLuaBuffer("game:netGui():ToggleEnabled()");
 				isNetGUIEnabled = !isNetGUIEnabled;
 				input.clear();
 				commandfound = true;
@@ -284,12 +320,15 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
 				std::cout << "     | help            : Print this screen again                 |" << std::endl;
 				std::cout << "     +===========================================================+" << std::endl;
 				
+				
+
 				commandfound = true;
 			}
 			if (command == "debughud")
 			{
-				luaL_loadstring_f(new_lua_State_ptr, "game:debugHud():CycleMode()");
-				lua_pcallk_f(new_lua_State_ptr, 0, 0, 0, 0, NULL);
+				AppendLuaBuffer("game:debugHud():CycleMode()");
+				//luaL_loadstring_f(new_lua_State_ptr, "game:debugHud():CycleMode()");
+				//lua_pcallk_f(new_lua_State_ptr, 0, 0, 0, 0, NULL);
 				
 				std::cout << "[!] Switching debugHud mode." << std::endl;
 				commandfound = true;
@@ -307,12 +346,8 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
 					cmd = "debugmode=1";
 				}
 
-				luaL_loadstring_f(new_lua_State_ptr, cmd.c_str());
 
-				if (lua_pcallk_f(new_lua_State_ptr, 0, 0, 0, 0, NULL) != 0)
-				{
-					std::cout << "[-] Lua Error: " << lua_tostring_f(new_lua_State_ptr, -1, NULL) << std::endl;	
-				}
+				AppendLuaBuffer(cmd.c_str());
 				
 				std::cout << "[+] Waiting for debugger..." << std::endl;
 
@@ -335,6 +370,9 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
 
 	return 0;
 }
+
+
+
 void ConsoleSetup()
 {
 
@@ -365,6 +403,76 @@ void ConsoleSetup()
 }
 
 gettop newFunction = NULL;
+
+void PreGameTick(__int64 game) 
+{
+	RunLuaBuffer();
+	//std::cout << game << std::endl;
+	//Addtext(gamestructbase + 192, "TESTTEST", 0, 0, (unsigned int)0x14068AFF4, (float)0xFFFF);
+	//Addtext((gamestructbase + 192), "I live in Pre-Game::Update", -0.2, -0.1, 0.05, 0xFF0000FF);
+}
+void GameTick(__int64 game,float a2) 
+{
+	gamestructbase = game;
+	gamerender = *(int*)(game + 192);
+	//std::cout << game << std::endl;
+	PreGameTick(game);
+
+	origGameTickFunction(game, a2);
+	//Addtext(gamestructbase + 192, "TESTTEST", 0, 0, (unsigned int)0x14068AFF4, (float)0xFFFF);
+}
+
+int AddTextHook(__int64 a1, const char* text, float x, float y, float size, int color)
+{
+	//std::cout << a1 << std::endl;
+	//std::cout << *(int*)(gamestructbase + 192) << std::endl;
+	//std::cout << text << std::endl;
+	//std::cout << x << std::endl;
+	//std::cout << y << std::endl;
+	//std::cout << a5 << std::endl;
+	//std::cout << a6 << std::endl;
+	//Sleep(1000);
+	//Addtext(a1, "CAN YOU PLEASE WORK", -0.2, 0, 0.05, 0xFF0000FF);
+	return Addtext(a1, text, x, y, size, color);
+}
+
+//int guibenchmark_cycle = 0;
+void CustomTextDoRender()
+{
+	//std::cout << "Render" << std::endl;
+	// RenderLoop
+	int xcount = 10;
+	//float starty = 1.0;
+	float x = -1.0;
+	float interval = 0.1;
+	float y = 1.0;
+	int xpos = 0;
+	for (int i = 1; i <= 100; i++)
+	{
+		xpos++;
+		if (xpos > xcount)
+		{
+			xpos = 0;
+			y -= 0.05;
+			x = -1.0;
+		}
+		Addtext(gamerender, "TEST", x += interval, y, 0.05, 0xFF0000FF);
+	}
+	
+}
+void NetGuiHook(__int64 a1, __int64 a2, float a3)
+{
+	// add custom text render barn here cuz the game will call it while queueing render is possible
+	CustomTextDoRender();
+	Addtext(gamerender, "RENDER TEST <9003> <9002>", -1.5, -1.0, 0.05, 0xFF0000FF);
+	Addtext(gamerender, " <9002>", -1.5, -0.9, 0.05, 0xFF0000FF);
+
+	
+	
+	//int result = Addtext(gamestructbase + 192, "TESTTEST", (float)-0.1, (float)-0.1, (float)0.5, 136);
+	//std::cout << result << std::endl;
+	origNetGuiFunction(a1, a2, a3);
+}
 
 int luaB_print_f(lua_State *L)
 {
@@ -531,6 +639,45 @@ int detourLuaState()
 	std::cout << "[+] Hooked enabled" << std::endl;
 	std::cout << "[+] origTargetFunction " << std::hex << origLuaBPrintFunction << std::endl;
 
+	if (MH_CreateHook((LPVOID)0x1400DAD40, &GameTick, reinterpret_cast<LPVOID*>(&origGameTickFunction)) != MH_OK)
+	{
+		std::cout << "[-] Hooking failed" << std::endl;
+		return 1;
+	}
+	std::cout << "[+] Hooked" << std::endl;
+	if (MH_EnableHook((LPVOID)0x1400DAD40) != MH_OK)
+	{
+		return 1;
+	}
+	std::cout << "[+] Hooked enabled" << std::endl;
+	std::cout << "[+] origTargetFunction " << std::hex << origGameTickFunction << std::endl;
+
+	if (MH_CreateHook((LPVOID)0x14010DA00, &NetGuiHook, reinterpret_cast<LPVOID*>(&origNetGuiFunction)) != MH_OK)
+	{
+		std::cout << "[-] Hooking failed" << std::endl;
+		return 1;
+	}
+	std::cout << "[+] Hooked" << std::endl;
+	if (MH_EnableHook((LPVOID)0x14010DA00) != MH_OK)
+	{
+		return 1;
+	}
+	std::cout << "[+] Hooked enabled" << std::endl;
+	std::cout << "[+] origTargetFunction " << std::hex << origNetGuiFunction << std::endl;
+
+	if (MH_CreateHook((LPVOID)0x14026EAA0, &AddTextHook, reinterpret_cast<LPVOID*>(&Addtext)) != MH_OK)
+	{
+		std::cout << "[-] Hooking failed" << std::endl;
+		return 1;
+	}
+	std::cout << "[+] Hooked" << std::endl;
+	if (MH_EnableHook((LPVOID)0x14026EAA0) != MH_OK)
+	{
+		return 1;
+	}
+	std::cout << "[+] Hooked enabled" << std::endl;
+	std::cout << "[+] origTargetFunction " << std::hex << Addtext << std::endl;
+
 	/*
 	if (MH_CreateHook((LPVOID)newthread, &hooked_debug_print, reinterpret_cast<LPVOID*>(&origTargetdebugprintFunction)) != MH_OK)
 	{
@@ -607,25 +754,24 @@ int WINAPI main()
 
 	consoleInputThreadHandle = CreateThread(0, 0, ConsoleInputThread, 0, 0, NULL);
 
-	luaL_loadstring_f(new_lua_State_ptr, "Vars.Game.cheatsEnabled(true)") || lua_pcallk_f(new_lua_State_ptr, 0, 0, 0, 0, NULL);
+	AppendLuaBuffer("Vars.Game.cheatsEnabled(true)");
+	
 
 	while (true)
 	{
 		int status;
 		if (GetAsyncKeyState(VK_RETURN) & 1 && isNetGUIEnabled)
 		{
-			luaL_loadstring_f(new_lua_State_ptr, "game:netGui():ExecuteSelectedItem(game)") || lua_pcallk_f(new_lua_State_ptr, 0, 0, 0, 0, NULL);
+			AppendLuaBuffer("game:netGui():ExecuteSelectedItem(game)");
+
+			//luaL_loadstring_f(new_lua_State_ptr, ) || lua_pcallk_f(new_lua_State_ptr, 0, 0, 0, 0, NULL);
 		}
 
 
 		if (GetAsyncKeyState(VK_F1) & 1)
 		{
 			std::cout << "[*] Waiting for debugger..." <<std::endl;
-			luaL_loadstring_f(new_lua_State_ptr, "debugmode=1");
-			if (lua_pcallk_f(new_lua_State_ptr, 0, 0, 0, 0, NULL) != 0)
-			{
-				std::cout << "[-] Lua Error: " << lua_tostring_f(new_lua_State_ptr, -1, NULL) << std::endl;
-			}
+			AppendLuaBuffer("debugmode=1");
 		}
 		if (GetAsyncKeyState(VK_F3) & 1)
 		{
@@ -659,9 +805,7 @@ int WINAPI main()
 
 		if (GetAsyncKeyState(VK_F8) & 1)
 		{
-			luaL_loadstring_f(new_lua_State_ptr, "game:debugHud():CycleMode()");
-			status = lua_pcallk_f(new_lua_State_ptr, 0, 0, 0, 0, NULL);
-			std::cout << status << std::endl;
+			AppendLuaBuffer("game:debugHud():CycleMode()");
 			std::cout << "[!] Switching debugHud mode." << std::endl;
 		}
 		Sleep(100);
