@@ -29,23 +29,9 @@
 #define lua_call(L, n, r) lua_callk_f(L, (n), (r), 0, NULL)
 #define lua_pop(L, n) lua_settop_f(L, -(n)-1)
 
-bool luaStateObtained = false;
-bool debugloop = false;
-bool redirectconsoleoutput = true;
 
-DWORD MemInfoConsolePid;
-typedef void *lua_State;
-// LUA STATE HOOK DEFINITIONS
-uint64_t baseAddress = 0;
-uintptr_t targetFunction = 0;
-uintptr_t printf_addr = 0;
-uintptr_t newthreadptr = 0;
-uintptr_t gamerender = 0;
-
-char consolebuffer[24];
-uintptr_t gamestructbase = 0;
-lua_State *lua_State_ptr = 0;
-lua_State *new_lua_State_ptr = 0;
+// Function definitions
+typedef void* lua_State;
 typedef void(__cdecl* _netgui)(__int64 a1, __int64 a2, float a3);
 typedef void(__cdecl* _gametick)(__int64 a1, float a2 );
 typedef int(__cdecl* _addtext)(__int64 a1, const char* text, float x, float y, float size, int color);
@@ -67,33 +53,26 @@ typedef void(__cdecl *_lua_pushvalue)(lua_State *, int);
 typedef float(__cdecl *_drawdebugtext)(uintptr_t, const char *, float, uintptr_t, float, int);
 typedef int(__cdecl *_luaL_error)(lua_State *, const char *, ...);
 typedef void(__cdecl *_lua_settop)(lua_State *, int);
-// typedef int(__cdecl *_lua_pcall)(lua_State *, int, int, int);
-
-uintptr_t luab_print_ptr = 0x140333040;
-// uintptr_t lua_getglobal_ptr = 0x14031BE70;
-
-_addtext Addtext = NULL;
-_luaB_print origLuaBPrintFunction = NULL;
-_netgui origNetGuiFunction = NULL;
-_gametick origGameTickFunction = NULL;
-_debug_print origTargetdebugprintFunction = NULL;
-gettop origTargetFunction = NULL;
-
-typedef int (*_lua_debugdostring)(lua_State *, const char *);
-typedef int (*_luaL_loadfilex)(lua_State *L, const char *filename, const char *mode);
-typedef int (*_lua_pcall)(lua_State *L, int nargs, int nresults, int errfunc);
-typedef int (*lua_KFunction)(lua_State *L, int status, intptr_t ctx);
-typedef int (*_close_state)(lua_State *L);
-typedef int (*_lua_pcallk)(lua_State *L, int nargs, int nresults, int errfunc, intptr_t ctx, lua_KFunction k);
-typedef void(__cdecl *_lua_callk)(lua_State *, int, int, intptr_t ctx, lua_KFunction);
-typedef int luaL_loadbuffer_(lua_State *L, char *buff, size_t size, char *name);
-typedef int lua_pcall_(lua_State *L, int nargs, int nresults, int errfunc);
+typedef int (*_lua_debugdostring)(lua_State*, const char*);
+typedef int (*_luaL_loadfilex)(lua_State* L, const char* filename, const char* mode);
+typedef int (*_lua_pcall)(lua_State* L, int nargs, int nresults, int errfunc);
+typedef int (*lua_KFunction)(lua_State* L, int status, intptr_t ctx);
+typedef int (*_close_state)(lua_State* L);
+typedef int (*_lua_pcallk)(lua_State* L, int nargs, int nresults, int errfunc, intptr_t ctx, lua_KFunction k);
+typedef void(__cdecl* _lua_callk)(lua_State*, int, int, intptr_t ctx, lua_KFunction);
+typedef int luaL_loadbuffer_(lua_State* L, char* buff, size_t size, char* name);
+typedef int lua_pcall_(lua_State* L, int nargs, int nresults, int errfunc);
 // typedef const char* lua_tostring_(lua_State* L, int32_t idx);
-typedef uint32_t lua_isstring_(lua_State *L, int32_t idx);
-typedef lua_State *lua_newthread_(lua_State *L);
+typedef uint32_t lua_isstring_(lua_State* L, int32_t idx);
+typedef lua_State* lua_newthread_(lua_State* L);
 typedef void logPointer(std::string name, uint64_t pointer);
 
+
+
+// Function bindings
+
 //_debug_print debug_print = (_debug_print)0x0;
+uintptr_t luab_print_ptr = 0x140333040;
 _netgui BaseNetGui = (_netgui)0x14010DA00;
 _gametick BaseGameTick = (_gametick)0x1400DAD40;
 //_addtext Addtext = (_addtext)0x14026EAA0;
@@ -112,19 +91,39 @@ _luaL_error luaL_error_f = (_luaL_error)0x14031DAA0;
 _lua_settop lua_settop_f = (_lua_settop)0x14031AEE0;
 _drawdebugtext drawdebugtext_f = (_drawdebugtext)0x14026EAA0;
 // DWORD newthreadptr = (uintptr_t)GetModuleHandle(NULL) + 0x31EB00;
-
 _close_state close_state = (_close_state)0x14031FB30;
 _lua_debugdostring lua_debugdostring = (_lua_debugdostring)0x1402D7460;
+
+
 typedef LONG(NTAPI *NtSuspendProcess)(IN HANDLE ProcessHandle);
 typedef LONG(NTAPI *NtResumeProcess)(IN HANDLE ProcessHandle);
+
 int luastatus;
 bool isNetGUIEnabled = false;
 bool commandfound = false;
 HANDLE consoleInputThreadHandle = NULL;
 // const char* Console_luaScriptCommandName = "script";
 
-
+bool luaStateObtained = false;
+bool debugloop = false;
+bool redirectconsoleoutput = true;
+DWORD MemInfoConsolePid;
+_addtext Addtext = NULL;
+_luaB_print origLuaBPrintFunction = NULL;
+_netgui origNetGuiFunction = NULL;
+_gametick origGameTickFunction = NULL;
+_debug_print origTargetdebugprintFunction = NULL;
+gettop origTargetFunction = NULL;
+uint64_t baseAddress = 0;
+uintptr_t targetFunction = 0;
+uintptr_t printf_addr = 0;
+uintptr_t newthreadptr = 0;
+uintptr_t gamerender = 0;
+uintptr_t gamestructbase = 0;
+lua_State* lua_State_ptr = 0;
+lua_State* new_lua_State_ptr = 0;
 std::vector<std::string> m_LuaExecuteBuffer;
+char consolebuffer[24];
 
 
 lua_State *luaCreateThread()
