@@ -1,4 +1,5 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(534,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (LuaHook.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  stdafx.cpp
   Journey_Detour.cpp
 C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(455,22): warning C4305: 'initializing': truncation from 'double' to 'float'
 C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(464,13): warning C4305: '-=': truncation from 'double' to 'float'
@@ -6,4 +7,6 @@ C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(4
 C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(475,76): warning C4305: 'argument': truncation from 'double' to 'float'
 C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(597,14): warning C4101: 'buf': unreferenced local variable
 C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(770,7): warning C4101: 'status': unreferenced local variable
+  hookutils.cpp
+  Generating Code...
   LuaHook.vcxproj -> C:\Users\wolf109909\Documents\GitHub\Journey_Detour\x64\Debug\Journey_Detour.dll

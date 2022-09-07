@@ -16,6 +16,7 @@
 #include <chrono>
 #include <random>
 #include <functional>
+#include "hookutils.h"
 //#pragma comment(lib, "lua53.lib")
 #if defined _M_X64
 #pragma comment(lib, "libMinHook-x64-v141-mdd.lib")
@@ -600,111 +601,33 @@ const char *__cdecl hooked_debug_print(const char *fmt, ...)
 	return fmt;
 }
 
+
+int InitializeHooks() 
+{
+	
+
+
+}
+
+
 int detourLuaState()
 {
-	//_gettop(lua_State);//i don't think you need this but if you do you can just add it!
-	std::cout << "[+] Hooking targetFunction: " << (LPVOID)targetFunction << std::endl;
+	HookEnabler hook;
+	ENABLER_CREATEHOOK(
+		hook, (LPVOID)targetFunction, &_gettop, reinterpret_cast<LPVOID*>(&origTargetFunction));
+	ENABLER_CREATEHOOK(
+		hook, (LPVOID)printf_addr, &hooked_debug_print, reinterpret_cast<LPVOID*>(&origTargetdebugprintFunction));
+	ENABLER_CREATEHOOK(
+		hook, (LPVOID)luab_print_ptr, &luaB_print_f, reinterpret_cast<LPVOID*>(&origLuaBPrintFunction));
+	ENABLER_CREATEHOOK(
+		hook, (LPVOID)0x1400DAD40, &GameTick, reinterpret_cast<LPVOID*>(&origGameTickFunction));
+	ENABLER_CREATEHOOK(
+		hook, (LPVOID)0x14010DA00, &NetGuiHook, reinterpret_cast<LPVOID*>(&origNetGuiFunction));
+	ENABLER_CREATEHOOK(
+		hook, (LPVOID)0x14026EAA0, &AddTextHook, reinterpret_cast<LPVOID*>(&Addtext));
 
-	if (MH_CreateHook((LPVOID)targetFunction, &_gettop, reinterpret_cast<LPVOID *>(&origTargetFunction)) != MH_OK)
-	{
-		std::cout << "[-] Hooking failed" << std::endl;
-		return 1;
-	}
-	std::cout << "[+] Hooked" << std::endl;
-	if (MH_EnableHook((LPVOID)targetFunction) != MH_OK)
-	{
-		return 1;
-	}
-	std::cout << "[+] Hooked enabled" << std::endl;
-	std::cout << "[+] origTargetFunction " << std::hex << origTargetFunction << std::endl;
-
-	if (MH_CreateHook((LPVOID)printf_addr, &hooked_debug_print, reinterpret_cast<LPVOID *>(&origTargetdebugprintFunction)) != MH_OK)
-	{
-		std::cout << "[-] Hooking prinf failed" << std::endl;
-		return 1;
-	}
-	std::cout << "[+] DEBUG PRINT Hooked" << std::endl;
-	if (MH_EnableHook((LPVOID)printf_addr) != MH_OK)
-	{
-		return 1;
-	}
-	std::cout << "[+] Hooked enabled" << std::endl;
-	std::cout << "[+] printf_addr " << std::hex << printf_addr << std::endl;
-
-	// 48 89 5C 24 08 57 48 83  EC 20 48 8B 41
-
-	if (MH_CreateHook((LPVOID)luab_print_ptr, &luaB_print_f, reinterpret_cast<LPVOID *>(&origLuaBPrintFunction)) != MH_OK)
-	{
-		std::cout << "[-] Hooking failed" << std::endl;
-		return 1;
-	}
-	std::cout << "[+] Hooked" << std::endl;
-	if (MH_EnableHook((LPVOID)luab_print_ptr) != MH_OK)
-	{
-		return 1;
-	}
-	std::cout << "[+] Hooked enabled" << std::endl;
-	std::cout << "[+] origTargetFunction " << std::hex << origLuaBPrintFunction << std::endl;
-
-	if (MH_CreateHook((LPVOID)0x1400DAD40, &GameTick, reinterpret_cast<LPVOID*>(&origGameTickFunction)) != MH_OK)
-	{
-		std::cout << "[-] Hooking failed" << std::endl;
-		return 1;
-	}
-	std::cout << "[+] Hooked" << std::endl;
-	if (MH_EnableHook((LPVOID)0x1400DAD40) != MH_OK)
-	{
-		return 1;
-	}
-	std::cout << "[+] Hooked enabled" << std::endl;
-	std::cout << "[+] origTargetFunction " << std::hex << origGameTickFunction << std::endl;
-
-	if (MH_CreateHook((LPVOID)0x14010DA00, &NetGuiHook, reinterpret_cast<LPVOID*>(&origNetGuiFunction)) != MH_OK)
-	{
-		std::cout << "[-] Hooking failed" << std::endl;
-		return 1;
-	}
-	std::cout << "[+] Hooked" << std::endl;
-	if (MH_EnableHook((LPVOID)0x14010DA00) != MH_OK)
-	{
-		return 1;
-	}
-	std::cout << "[+] Hooked enabled" << std::endl;
-	std::cout << "[+] origTargetFunction " << std::hex << origNetGuiFunction << std::endl;
-
-	if (MH_CreateHook((LPVOID)0x14026EAA0, &AddTextHook, reinterpret_cast<LPVOID*>(&Addtext)) != MH_OK)
-	{
-		std::cout << "[-] Hooking failed" << std::endl;
-		return 1;
-	}
-	std::cout << "[+] Hooked" << std::endl;
-	if (MH_EnableHook((LPVOID)0x14026EAA0) != MH_OK)
-	{
-		return 1;
-	}
-	std::cout << "[+] Hooked enabled" << std::endl;
-	std::cout << "[+] origTargetFunction " << std::hex << Addtext << std::endl;
-
-	/*
-	if (MH_CreateHook((LPVOID)newthread, &hooked_debug_print, reinterpret_cast<LPVOID*>(&origTargetdebugprintFunction)) != MH_OK)
-	{
-		std::cout << "[-] Hooking newthread failed" << std::endl;
-		return 1;
-	}
-	std::cout << "[+] newthread Hooked" << std::endl;
-	if (MH_EnableHook((LPVOID)newthread_addr) != MH_OK)
-	{
-		return 1;
-	}
-	std::cout << "[+] Hooked enabled" << std::endl;
-	std::cout << "[+] newthread_addr " << std::hex << printf_addr << std::endl;
-	*/
 	return 0;
 
-	// DetourTransactionBegin();
-	// DetourUpdateThread(GetCurrentThread());
-	// DetourAttach(&(LPVOID&)val.lua_gettop_p, (PBYTE)_gettop); // Detours the original lua_gettop_p with our _gettop
-	// DetourTransactionCommit();
 }
 
 int refKey = 0;

@@ -24,12 +24,18 @@
     <ClInclude Include="string-utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="hookutils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Journey_Detour.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hookutils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
