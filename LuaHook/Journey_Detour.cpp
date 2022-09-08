@@ -18,6 +18,7 @@
 #include <functional>
 #include "hookutils.h"
 #include "spdlog/spdlog.h"
+#include <map>
 //#pragma comment(lib, "lua53.lib")
 #if defined _M_X64
 #pragma comment(lib, "libMinHook-x64-v141-mdd.lib")
@@ -77,7 +78,7 @@ _gametick origGameTickFunction = NULL;
 uint64_t baseAddress = 0;
 uintptr_t gamerender = 0;
 uintptr_t gamestructbase = 0;
-
+uintptr_t gamenetwork = 0;
 
 char consolebuffer[24];
 // y: -1 ~ 1
@@ -238,11 +239,53 @@ namespace Lua
 
 	}
 
-}
+};
 
+namespace Game
+{
+	using namespace Lua;
+	uintptr_t game;
+	uintptr_t render;
+	uintptr_t matchmaker;
+	//uintptr_t L;
+	typedef int GetLevelUidType(lua_State*, char* LevelName);
+	GetLevelUidType* GetLevelUid = (GetLevelUidType*)0x1400DA830;
+	bool locateGame = false;
+	bool autolobbybool1;
+	bool autolobbybool2;
+	unsigned __int8 someinteger;
 
+	void UpdateValues()
+	{
+		render = *(int*)(game + 192);
+		matchmaker = *(int*)(game + 384);
+		someinteger = *(unsigned __int8*)(matchmaker + 1536);
+		autolobbybool1 = *(bool*)(someinteger + 1057);
+		autolobbybool2 = *(bool*)(someinteger + 1058);
 
-namespace GUIConsole 
+	}
+
+	char* CurrentLevelName()
+	{
+		return (char*)(game + 1835760);
+	}
+	int CurrentLevelUid()
+	{
+		return GetLevelUid(lua_State_ptr, CurrentLevelName());
+	}
+	void SetBaseAddress(uintptr_t addr)
+	{
+		if (!locateGame)
+		{
+			game = addr;
+			UpdateValues();
+		}
+
+	}
+
+};
+
+namespace GUIConsole
 {
 	float GUIConsole_X = -1.75;
 	float GUIConsole_y = 0;
@@ -252,7 +295,7 @@ namespace GUIConsole
 	int CountDown = 500;
 	int CountDownLimit = 100;
 	int GUIConsole_Cursor = 0;
-	char GUIConsole_Buffer[GUIConsole_Width * GUIConsole_Height];
+	//char GUIConsole_Buffer[GUIConsole_Width * GUIConsole_Height];
 	std::vector<std::string> console_lines;
 
 	void AppendLine(std::string line)
@@ -290,8 +333,160 @@ namespace GUIConsole
 		}
 
 	}
-}
+};
 
+namespace MenuSystem
+{
+	typedef void (*Action)(void); // function pointer type
+
+	class Item
+	{
+	private:
+		std::string ItemName;
+		Action function;
+	public:
+		Item(std::string name, Action function)
+		{
+			this->ItemName = name;
+			this->function = function;
+		}
+		void Execute()
+		{
+			this->function();
+		}
+		std::string GetName()
+		{
+			return this->ItemName;
+		}
+	};
+
+	int selectedItem = 0;
+	std::map<int, Item*> MenuItems;
+
+
+
+	void MenuSelectionChanged()
+	{
+		if (selectedItem < 0)
+			selectedItem = 0;
+		if (selectedItem > MenuItems.size() - 1)
+			selectedItem = MenuItems.size() - 1;
+	}
+	void SelectPreviousItem()
+	{
+		selectedItem--;
+		MenuSelectionChanged();
+	}
+
+	void SelectNextItem()
+	{
+		selectedItem++;
+		MenuSelectionChanged();
+	}
+
+	void ExecuteItem()
+	{
+		Item item = *MenuItems[selectedItem];
+		item.Execute();
+	}
+
+	void AddItem(std::string itemname, Action function)
+	{
+		Item* item = new Item(itemname, function);
+		int id = MenuItems.size();
+		spdlog::info("Adding menu item {},id {}", itemname, id);
+		MenuItems.insert_or_assign(id, item);
+	}
+
+	void Action_Test()
+	{
+		Lua::AppendBuffer("game:QueueLevel(\"Level_Desert\")");
+	}
+
+	void Action_ToggleNetGui()
+	{
+		Lua::AppendBuffer("game:netGui():ToggleEnabled()");
+		isNetGUIEnabled = !isNetGUIEnabled;
+	}
+	void Action_ToggleConsole()
+	{
+		redirectconsoleoutput = !redirectconsoleoutput;
+	}
+	void Action_CycleDebugHud()
+	{
+		Lua::AppendBuffer("game:debugHud():CycleMode()");
+	}
+	void Action_SetMaxOutfit()
+	{
+		Lua::AppendBuffer("game:playerBarn():GetLocalDude():SetOutfit(8)");
+	}
+	void Action_SetMaxCloth() 
+	{
+		Lua::AppendBuffer("SpawnEvent{ SetMaxCloth = { changeAmount = 32 } }");
+	}
+	void Action_FillScarf()
+	{
+		Lua::AppendBuffer("game:playerBarn():GetLocalDude():FillScarf(32, game:soundBarn())");
+	}
+	void Action_GotoNick()
+	{
+		Lua::AppendBuffer("game:playerBarn():GetLocalDude():SetPos(game:playerBarn():GetRemoteDude():GetPos())");
+	}
+	void Action_ToggleMusic()
+	{
+		Lua::AppendBuffer("game:soundBarn():ToggleMuteMusic()");
+	}
+	
+
+
+	void InitializeMenu() 
+	{
+		AddItem("ToggleNetGui", &Action_ToggleNetGui);
+		AddItem("ToggleConsole", &Action_ToggleConsole);
+		AddItem("CycleDebugHud", &Action_CycleDebugHud);
+		AddItem("SetMaxOutfit", &Action_SetMaxOutfit);
+		AddItem("SetMaxCloth", &Action_SetMaxCloth);
+		AddItem("FillScarf", &Action_FillScarf);
+		AddItem("GotoNick", &Action_GotoNick);
+		AddItem("ToggleMusic", &Action_ToggleMusic);
+		
+	}
+
+	namespace GUI 
+	{
+		float xoffset = 1.2;
+		float yoffset = 0.75;
+		float fontsize = 0.05;
+		unsigned int color = 0xFFFFFF00;
+		unsigned int color_picked = 0xFF0000FF;
+
+		void Draw()
+		{
+			for (auto mapitem : MenuItems)
+			{
+				//Item item = *item;
+				int itemid = mapitem.first;
+				Item item = *mapitem.second;
+				float x = xoffset;
+				float y = yoffset - fontsize*itemid;
+				std::string itemname = item.GetName();
+				//spdlog::info(item.GetName().c_str());
+				if (itemid == selectedItem)
+				{
+					Addtext(gamerender, itemname.c_str(), x, y, fontsize, color_picked);
+				}
+				else
+				{
+					Addtext(gamerender, itemname.c_str(), x, y, fontsize, color);
+				}
+				//spdlog::info("X: {} Y:{} NAME: {} SIZE: {} COLOR: {}", x, y, itemname, fontsize, color);
+				//Sleep(1000);
+				//Addtext(gamerender, std::to_string(CountDown).c_str() , 0, 0, GUIConsole_charsize, 0xFF000000);
+			}
+
+		}
+	}
+};
 
 
 void initializeInGameLogging()
@@ -307,9 +502,11 @@ void InitializeLuaGUI()
 
 DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
 {
-
+	
 	FILE *fp = nullptr;
 	freopen_s(&fp, "CONIN$", "r", stdin);
+	using namespace std::chrono_literals;
+	std::this_thread::sleep_for(2000ms);
 	std::cout << R"(
 ---------------------------------------------------------------------------
        __                                  ____       __                  
@@ -591,6 +788,7 @@ int AddTextHook(__int64 a1, const char* text, float x, float y, float size, int 
 void CustomTextDoRender()
 {
 	GUIConsole::Draw();
+	MenuSystem::GUI::Draw();
 	
 }
 void NetGuiHook(__int64 a1, __int64 a2, float a3)
@@ -742,11 +940,34 @@ int WINAPI main()
 	consoleInputThreadHandle = CreateThread(0, 0, ConsoleInputThread, 0, 0, NULL);
 
 	Lua::AppendBuffer("Vars.Game.cheatsEnabled(true)");
-	
+
+	MenuSystem::InitializeMenu();
 
 	while (true)
 	{
 		int status;
+
+		if (GetAsyncKeyState(VK_UP) & 1)
+		{
+			MenuSystem::SelectPreviousItem();
+
+			//luaL_loadstring_f(new_lua_State_ptr, ) || lua_pcallk_f(new_lua_State_ptr, 0, 0, 0, 0, NULL);
+		}
+
+		if (GetAsyncKeyState(VK_DOWN) & 1)
+		{
+			MenuSystem::SelectNextItem();
+
+			//luaL_loadstring_f(new_lua_State_ptr, ) || lua_pcallk_f(new_lua_State_ptr, 0, 0, 0, 0, NULL);
+		}
+
+		if (GetAsyncKeyState(VK_END) & 1)
+		{
+			MenuSystem::ExecuteItem();
+
+			//luaL_loadstring_f(new_lua_State_ptr, ) || lua_pcallk_f(new_lua_State_ptr, 0, 0, 0, 0, NULL);
+		}
+
 		if (GetAsyncKeyState(VK_RETURN) & 1 && isNetGUIEnabled)
 		{
 			Lua::AppendBuffer("game:netGui():ExecuteSelectedItem(game)");
