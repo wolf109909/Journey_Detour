@@ -32,9 +32,9 @@
 
 typedef void(__cdecl* _phyreprint)(unsigned int severity, const char* a2, ...);
 typedef void(__cdecl* _netgui)(__int64 a1, __int64 a2, float a3);
-typedef void(__cdecl* _gametick)(__int64 a1, float a2 );
+typedef __int64(__cdecl* _gametick)(__int64 game, float a2, __int64 a3, __int64 a4);
 typedef int(__cdecl* _addtext)(__int64 a1, const char* text, float x, float y, float size, int color);
-
+typedef __int64(__cdecl* _drawhud)(__int64 i,__int64 a2,__int64 a3,__int64 a4,__int64 a5,__int64 a6,__int64 a7,__int64 a8,__int64 a9);
 typedef __int64(__cdecl *_getconsole)(char *);
 typedef __int64(__cdecl *_printluamem)(__int64);
 
@@ -47,7 +47,7 @@ typedef void logPointer(std::string name, uint64_t pointer);
 //_debug_print debug_print = (_debug_print)0x0;
 
 _netgui BaseNetGui = (_netgui)0x14010DA00;
-_gametick BaseGameTick = (_gametick)0x1400DAD40;
+//_gametick BaseGameTick = (_gametick)0x1400DAD40;
 //_addtext Addtext = (_addtext)0x14026EAA0;
 _getconsole getconsole_f = (_getconsole)0x140316DC0;
 _printluamem printluamem_f = (_printluamem)0x1400F0B90;
@@ -70,12 +70,12 @@ bool redirectconsoleoutput = true;
 
 DWORD MemInfoConsolePid;
 _addtext Addtext = NULL;
-
+_drawhud origDrawHudFunction = NULL;
 _netgui origNetGuiFunction = NULL;
 _phyreprint origPhyrePrintFunction = NULL;
 _gametick origGameTickFunction = NULL;
 
-uint64_t baseAddress = 0;
+uintptr_t baseAddress = (uintptr_t)GetModuleHandle(NULL);
 uintptr_t gamerender = 0;
 uintptr_t gamestructbase = 0;
 uintptr_t gamenetwork = 0;
@@ -130,29 +130,31 @@ namespace Lua
 	typedef int (*_close_state)(lua_State* L);
 	typedef int (*_lua_pcallk)(lua_State* L, int nargs, int nresults, int errfunc, intptr_t ctx, lua_KFunction k);
 	typedef void(__cdecl* _lua_callk)(lua_State*, int, int, intptr_t ctx, lua_KFunction);
-	typedef int luaL_loadbuffer_(lua_State* L, char* buff, size_t size, char* name);
+	typedef int (__cdecl* luaL_loadbuffer_)(lua_State* L, char* buff, size_t size, char* name);
 	typedef int lua_pcall_(lua_State* L, int nargs, int nresults, int errfunc);
-
+	
 	// typedef const char* lua_tostring_(lua_State* L, int32_t idx);
 	typedef uint32_t lua_isstring_(lua_State* L, int32_t idx);
 	typedef lua_State* lua_newthread_(lua_State* L);
-
-	_luaL_loadstring luaL_loadstring = (_luaL_loadstring)0x14031E250;
-	_lua_pcall lua_pcall = (_lua_pcall)0x1403278C0;
+	
+	//_luaL_loadstring luaL_loadstring = (_luaL_loadstring)0x14031E250;
+	
 	_luaL_loadfilex luaL_loadfilex = (_luaL_loadfilex)0x14031DEA0;
 	lua_tostring_ lua_tostring = (lua_tostring_)0x14031B3B0;
 	_lua_getglobal lua_getglobal = (_lua_getglobal)0x14031BA50;
 	_lua_pushvalue lua_pushvalue = (_lua_pushvalue)0x14031AF30;
 	_lua_callk lua_callk = (_lua_callk)0x14031C340;
 	_luaL_error luaL_error = (_luaL_error)0x14031DAA0;
-	_lua_settop lua_settop = (_lua_settop)0x14031AEE0;
+	_lua_settop lua_settop = (_lua_settop)0x14024AC50;
 	_lua_close lua_close = (_lua_close)0x14031F6E0;
 	_lua_pcallk lua_pcallk= (_lua_pcallk)0x14031C3D0;
-	newThread lua_newthread = (newThread)0x14031F700;
+	
 	uintptr_t luab_print_ptr = 0x140333040;
 	_close_state close_state = (_close_state)0x14031FB30;
 	_lua_debugdostring lua_debugdostring = (_lua_debugdostring)0x1402D7460;
-
+	_lua_pcall lua_pcall = (_lua_pcall)(baseAddress + 0x24A970);
+	newThread lua_newthread = (newThread)(baseAddress + 0x259B60);
+	luaL_loadbuffer_ luaL_loadBuffer = (luaL_loadbuffer_)(baseAddress + 0x24C6D0);
 	std::vector<std::string> m_LuaExecuteBuffer;
 	lua_State* lua_State_ptr = 0;
 	lua_State* new_lua_State_ptr = 0;
@@ -161,6 +163,9 @@ namespace Lua
 	_luaB_print origLuaBPrintFunction = NULL;
 	bool luaStateObtained = false;
 	int luastatus;
+
+	//int luaL_loadstring(lua_State* L, const char* s) {
+		//return luaL_loadbuffer(L, s, strlen(s), s);
 
 	int _gettop(lua_State* L)
 	{
@@ -209,10 +214,10 @@ namespace Lua
 	lua_State* CreateThread()
 	{
 		spdlog::info("Creating new thread");
-		// std::cout << "[+] Calling newThread" << std::endl;
+		std::cout << "[+] Calling newThread" << std::endl;
 		lua_State* thread = lua_newthread(lua_State_ptr);
-		// std::cout << "[+] New LuaState: " << thread << std::endl;
-		// lua_pop(lua_State_ptr, 1);
+		std::cout << "[+] New LuaState: " << thread << std::endl;
+		lua_pop(lua_State_ptr, 1);
 		return thread;
 	}
 	void AppendBuffer(std::string buffer)
@@ -228,10 +233,10 @@ namespace Lua
 
 		for (auto buffer : m_LuaExecuteBuffer)
 		{
-			luaL_loadstring(new_lua_State_ptr, buffer.c_str());
-			if (lua_pcallk(new_lua_State_ptr, 0, 0, 0, 0, NULL) != 0)
+			luaL_loadBuffer(lua_State_ptr, (char*)buffer.c_str(),strlen(buffer.c_str()), (char*)buffer.c_str());
+			if (lua_pcall(lua_State_ptr, 0, 0, 0) != 0)
 			{
-				std::cout << "ERROR: " << lua_tostring(new_lua_State_ptr, -1, NULL) << std::endl;
+				std::cout << "ERROR: " << lua_tostring(lua_State_ptr, -1, NULL) << std::endl;
 			}
 			//std::cout << "buffer executed" << std::endl;
 			m_LuaExecuteBuffer.erase(m_LuaExecuteBuffer.begin());
@@ -533,8 +538,8 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
 	std::cout << "\n\n[*] Ready to receive console commands." << std::endl;
 
 	// initialize meminfo thread
-	std::thread debuginfothread(PollLuaMem);
-	debuginfothread.detach();
+	//std::thread debuginfothread(PollLuaMem);
+	//debuginfothread.detach();
 
 	{
 		using namespace Lua;
@@ -635,7 +640,7 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
 				int stacksize = origTargetFunction(new_lua_State_ptr);
 				std::cout << stacksize << std::endl;
 
-				Lua::luaL_loadstring(new_lua_State_ptr, "SpawnEvent{ DisplayText = { text = \"THIS TEXT IS CALLED FROM LUA_DOFILE FROM C!\", x = 0, y = 0, duration = 3, fadeTime = 0.5, scale = 0.1 } }") || lua_pcallk(new_lua_State_ptr, 0, -1, 0, 0, NULL);
+				//Lua::luaL_loadstring(new_lua_State_ptr, "SpawnEvent{ DisplayText = { text = \"THIS TEXT IS CALLED FROM LUA_DOFILE FROM C!\", x = 0, y = 0, duration = 3, fadeTime = 0.5, scale = 0.1 } }") || lua_pcallk(new_lua_State_ptr, 0, -1, 0, 0, NULL);
 				stacksize = origTargetFunction(new_lua_State_ptr);
 				std::cout << stacksize << std::endl;
 				input.clear();
@@ -759,14 +764,20 @@ void PreGameTick(__int64 game)
 	//Addtext(gamestructbase + 192, "TESTTEST", 0, 0, (unsigned int)0x14068AFF4, (float)0xFFFF);
 	//Addtext((gamestructbase + 192), "I live in Pre-Game::Update", -0.2, -0.1, 0.05, 0xFF0000FF);
 }
-void GameTick(__int64 game,float a2) 
+__int64 GameTick(__int64 game, float a2, __int64 a3, __int64 a4)
 {
+	spdlog::info("tick");
 	gamestructbase = game;
-	gamerender = *(int*)(game + 192);
+	//gamerender = *(int*)(game + 192);
+	Lua::lua_State_ptr = (Lua::lua_State*)(game + 32);
+	//if(Lua::new_lua_State_ptr == 0)
+		//Lua::new_lua_State_ptr = Lua::CreateThread();
+	//luaStateObtained = true;
+	spdlog::info("luastate:{}", *Lua::lua_State_ptr);
 	//std::cout << game << std::endl;
-	PreGameTick(game);
+	//PreGameTick(game);
 
-	origGameTickFunction(game, a2);
+	return origGameTickFunction(game, a2, a3, a4);
 	//Addtext(gamestructbase + 192, "TESTTEST", 0, 0, (unsigned int)0x14068AFF4, (float)0xFFFF);
 }
 
@@ -791,19 +802,25 @@ void CustomTextDoRender()
 	MenuSystem::GUI::Draw();
 	
 }
-void NetGuiHook(__int64 a1, __int64 a2, float a3)
+
+__int64 DrawHudHook(__int64 i, __int64 a2, __int64 a3, __int64 a4, __int64 a5, __int64 a6, __int64 a7, __int64 a8, __int64 a9) 
 {
+	gamerender = a9;
 	// add custom text render barn here cuz the game will call it while queueing render is possible
 	CustomTextDoRender();
-	Addtext(gamerender, "Journey Detour v1.0.1", -1.75, -1.0, 0.05, 0xFFFFFFFF);
+	Addtext(gamerender, "Flower Detour v0.0.1", -1.75, -1.0, 0.05, 0xFFFFFFFF);
 	//Addtext(gamerender, " <9002>", -1.5, -0.9, 0.05, 0xFF0000FF);
+	//a9
 
-	
-	
+
 	//int result = Addtext(gamestructbase + 192, "TESTTEST", (float)-0.1, (float)-0.1, (float)0.5, 136);
 	//std::cout << result << std::endl;
-	origNetGuiFunction(a1, a2, a3);
+	return origDrawHudFunction(i, a2, a3,a4,a5,a6,a7,a8,a9);
+
 }
+	
+
+
 
 
 
@@ -888,20 +905,22 @@ int detourLuaState()
 {
 	using namespace Lua;
 	HookEnabler hook;
+	//ENABLER_CREATEHOOK(
+		//hook, (LPVOID)0x14031AEC0, &_gettop, reinterpret_cast<LPVOID*>(&origTargetFunction));
 	ENABLER_CREATEHOOK(
-		hook, (LPVOID)0x14031AEC0, &_gettop, reinterpret_cast<LPVOID*>(&origTargetFunction));
+		hook, (LPVOID)(baseAddress + 0x2D4F0), &hooked_debug_print, reinterpret_cast<LPVOID*>(&origTargetdebugprintFunction));
+	//ENABLER_CREATEHOOK(
+		//hook, (LPVOID)0x140333040, &luaB_print_f, reinterpret_cast<LPVOID*>(&origLuaBPrintFunction));
 	ENABLER_CREATEHOOK(
-		hook, (LPVOID)0x1402E3090, &hooked_debug_print, reinterpret_cast<LPVOID*>(&origTargetdebugprintFunction));
+		hook, (LPVOID)(baseAddress + 0x690F0), &GameTick, reinterpret_cast<LPVOID*>(&origGameTickFunction));
+	//ENABLER_CREATEHOOK(
+		//hook, (LPVOID)0x14010DA00, &NetGuiHook, reinterpret_cast<LPVOID*>(&origNetGuiFunction));
 	ENABLER_CREATEHOOK(
-		hook, (LPVOID)0x140333040, &luaB_print_f, reinterpret_cast<LPVOID*>(&origLuaBPrintFunction));
+		hook, (LPVOID)(baseAddress + 0x1A9470), &AddTextHook, reinterpret_cast<LPVOID*>(&Addtext));
 	ENABLER_CREATEHOOK(
-		hook, (LPVOID)0x1400DAD40, &GameTick, reinterpret_cast<LPVOID*>(&origGameTickFunction));
-	ENABLER_CREATEHOOK(
-		hook, (LPVOID)0x14010DA00, &NetGuiHook, reinterpret_cast<LPVOID*>(&origNetGuiFunction));
-	ENABLER_CREATEHOOK(
-		hook, (LPVOID)0x14026EAA0, &AddTextHook, reinterpret_cast<LPVOID*>(&Addtext));
-	ENABLER_CREATEHOOK(
-		hook, (LPVOID)0x140381B60, &PhyrePrintf, reinterpret_cast<LPVOID*>(&origPhyrePrintFunction));
+		hook, (LPVOID)(baseAddress + 0xB6510), &DrawHudHook, reinterpret_cast<LPVOID*>(&origDrawHudFunction));
+	//ENABLER_CREATEHOOK(
+		//hook, (LPVOID)0x140381B60, &PhyrePrintf, reinterpret_cast<LPVOID*>(&origPhyrePrintFunction));
 
 	return 0;
 
@@ -914,10 +933,10 @@ int WINAPI main()
 	using namespace Lua;
 	ConsoleSetup();
 
-	InitializeLuaGUI();
+	//InitializeLuaGUI();
 	// newFunction = (gettop)_gettop;
 	// gettop
-	baseAddress = (uintptr_t)GetModuleHandle(NULL);
+	
 
 
 	// Initialize MinHook.
@@ -928,13 +947,13 @@ int WINAPI main()
 
 	detourLuaState();
 
-	while (luaStateObtained == false)
-	{
-		Sleep(1000);
-	}
+	//while (luaStateObtained == false)
+	//{
+	//	Sleep(1000);
+	//}
 
 	// to juesto: uncomment this if you want to try running code from a new luastate. also change the two function calls using lua_state_ptr to new_ptr.
-	new_lua_State_ptr = Lua::CreateThread();
+	
 	// luaL_loadfilex_f(new_lua_State_ptr, "main.lua", NULL) || lua_pcallk_f(new_lua_State_ptr, 0, -1, 0, 0, NULL);
 
 	consoleInputThreadHandle = CreateThread(0, 0, ConsoleInputThread, 0, 0, NULL);
@@ -992,8 +1011,8 @@ int WINAPI main()
 				std::cout << "[*] Enabled Memory profiler" << std::endl;
 			}
 			debugloop = !debugloop;
-			std::thread debuginfothread(PollLuaMem);
-			debuginfothread.detach();
+			//std::thread debuginfothread(PollLuaMem);
+			//debuginfothread.detach();
 
 		}
 		if (GetAsyncKeyState(VK_F7) & 1)

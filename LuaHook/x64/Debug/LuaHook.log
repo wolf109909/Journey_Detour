@@ -1,13 +1,13 @@
-﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(534,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (LuaHook.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Journey_Detour.cpp
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(263,48): warning C4312: 'type cast': conversion from 'int' to 'bool *' of greater size
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(264,48): warning C4312: 'type cast': conversion from 'int' to 'bool *' of greater size
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(292,34): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(320,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(373,39): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(396,28): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(450,22): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(452,24): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(791,76): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Journey_Detour.cpp(941,7): warning C4101: 'status': unreferenced local variable
-  LuaHook.vcxproj -> C:\Users\wolf109909\Documents\GitHub\Journey_Detour\x64\Debug\Journey_Detour.dll
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(534,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (Journey_Detour.vcxproj, LuaHook.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Flower_Detour.cpp
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(268,48): warning C4312: 'type cast': conversion from 'int' to 'bool *' of greater size
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(269,48): warning C4312: 'type cast': conversion from 'int' to 'bool *' of greater size
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(297,34): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(325,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(378,39): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(401,28): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(462,22): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(464,24): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(811,75): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(967,7): warning C4101: 'status': unreferenced local variable
+  LuaHook.vcxproj -> C:\Users\wolf109909\Documents\GitHub\Journey_Detour\x64\Debug\Flower_Detour.dll

@@ -23,7 +23,7 @@
     <ProjectGuid>{CFD07110-9069-4497-8204-58BE60943AFD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>LuaHook</RootNamespace>
-    <ProjectName>Journey_Detour</ProjectName>
+    <ProjectName>Flower_Detour</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -166,7 +166,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Journey_Detour.cpp" />
+    <ClCompile Include="Flower_Detour.cpp" />
     <ClCompile Include="hookutils.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
