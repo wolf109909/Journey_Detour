@@ -8,6 +8,7 @@ C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(37
 C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(401,28): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(462,22): warning C4305: 'initializing': truncation from 'double' to 'float'
 C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(464,24): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(811,75): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(967,7): warning C4101: 'status': unreferenced local variable
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(815,75): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(816,61): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\Flower_Detour.cpp(971,7): warning C4101: 'status': unreferenced local variable
   LuaHook.vcxproj -> C:\Users\wolf109909\Documents\GitHub\Journey_Detour\x64\Debug\Flower_Detour.dll

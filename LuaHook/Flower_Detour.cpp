@@ -32,7 +32,7 @@
 
 typedef void(__cdecl* _phyreprint)(unsigned int severity, const char* a2, ...);
 typedef void(__cdecl* _netgui)(__int64 a1, __int64 a2, float a3);
-typedef __int64(__cdecl* _gametick)(__int64 game, float a2, __int64 a3, __int64 a4);
+typedef void(__cdecl* _gametick)(__int64 game, float a2, __int64 a3, __int64 a4);
 typedef int(__cdecl* _addtext)(__int64 a1, const char* text, float x, float y, float size, int color);
 typedef __int64(__cdecl* _drawhud)(__int64 i,__int64 a2,__int64 a3,__int64 a4,__int64 a5,__int64 a6,__int64 a7,__int64 a8,__int64 a9);
 typedef __int64(__cdecl *_getconsole)(char *);
@@ -764,20 +764,23 @@ void PreGameTick(__int64 game)
 	//Addtext(gamestructbase + 192, "TESTTEST", 0, 0, (unsigned int)0x14068AFF4, (float)0xFFFF);
 	//Addtext((gamestructbase + 192), "I live in Pre-Game::Update", -0.2, -0.1, 0.05, 0xFF0000FF);
 }
-__int64 GameTick(__int64 game, float a2, __int64 a3, __int64 a4)
+__int64 g_loadlevel_a3 = 0;
+void GameTick(__int64 game, float a2, __int64 a3, __int64 a4)
 {
+	g_loadlevel_a3 = a3;
+
 	spdlog::info("tick");
-	gamestructbase = game;
+	//gamestructbase = game;
 	//gamerender = *(int*)(game + 192);
-	Lua::lua_State_ptr = (Lua::lua_State*)(game + 32);
+	//Lua::lua_State_ptr = (Lua::lua_State*)(game + 32);
 	//if(Lua::new_lua_State_ptr == 0)
 		//Lua::new_lua_State_ptr = Lua::CreateThread();
 	//luaStateObtained = true;
-	spdlog::info("luastate:{}", *Lua::lua_State_ptr);
+	//spdlog::info("luastate:{}", *Lua::lua_State_ptr);
 	//std::cout << game << std::endl;
 	//PreGameTick(game);
 
-	return origGameTickFunction(game, a2, a3, a4);
+	origGameTickFunction(game, a2, a3, a4);
 	//Addtext(gamestructbase + 192, "TESTTEST", 0, 0, (unsigned int)0x14068AFF4, (float)0xFFFF);
 }
 
@@ -805,11 +808,12 @@ void CustomTextDoRender()
 
 __int64 DrawHudHook(__int64 i, __int64 a2, __int64 a3, __int64 a4, __int64 a5, __int64 a6, __int64 a7, __int64 a8, __int64 a9) 
 {
+	spdlog::info("DRAW");
 	gamerender = a9;
 	// add custom text render barn here cuz the game will call it while queueing render is possible
-	CustomTextDoRender();
+	//CustomTextDoRender();
 	Addtext(gamerender, "Flower Detour v0.0.1", -1.75, -1.0, 0.05, 0xFFFFFFFF);
-	//Addtext(gamerender, " <9002>", -1.5, -0.9, 0.05, 0xFF0000FF);
+	Addtext(gamerender, " <9002>", -1.5, -0.9, 0.05, 0xFF0000FF);
 	//a9
 
 
@@ -911,12 +915,12 @@ int detourLuaState()
 		hook, (LPVOID)(baseAddress + 0x2D4F0), &hooked_debug_print, reinterpret_cast<LPVOID*>(&origTargetdebugprintFunction));
 	//ENABLER_CREATEHOOK(
 		//hook, (LPVOID)0x140333040, &luaB_print_f, reinterpret_cast<LPVOID*>(&origLuaBPrintFunction));
-	ENABLER_CREATEHOOK(
-		hook, (LPVOID)(baseAddress + 0x690F0), &GameTick, reinterpret_cast<LPVOID*>(&origGameTickFunction));
+	//ENABLER_CREATEHOOK(
+		//hook, (LPVOID)(baseAddress + 0x690F0), &GameTick, reinterpret_cast<LPVOID*>(&origGameTickFunction));
 	//ENABLER_CREATEHOOK(
 		//hook, (LPVOID)0x14010DA00, &NetGuiHook, reinterpret_cast<LPVOID*>(&origNetGuiFunction));
-	ENABLER_CREATEHOOK(
-		hook, (LPVOID)(baseAddress + 0x1A9470), &AddTextHook, reinterpret_cast<LPVOID*>(&Addtext));
+	//ENABLER_CREATEHOOK(
+		//hook, (LPVOID)(baseAddress + 0x1A9470), &AddTextHook, reinterpret_cast<LPVOID*>(&Addtext));
 	ENABLER_CREATEHOOK(
 		hook, (LPVOID)(baseAddress + 0xB6510), &DrawHudHook, reinterpret_cast<LPVOID*>(&origDrawHudFunction));
 	//ENABLER_CREATEHOOK(
