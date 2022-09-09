@@ -160,6 +160,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="guiconsole.h" />
+    <ClInclude Include="game.h" />
+    <ClInclude Include="custommenu.h" />
+    <ClInclude Include="render.h" />
+    <ClInclude Include="hooks.h" />
+    <ClInclude Include="lua.h" />
     <ClInclude Include="hookutils.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="string-utils.h" />
