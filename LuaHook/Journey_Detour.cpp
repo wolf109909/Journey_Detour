@@ -1,27 +1,19 @@
 // LuaInjector.cpp : Defines the exported functions for the DLL application.
 //
 // Standard imports
-#define _CRT_SECURE_NO_WARNINGS
 #include "stdafx.h"
-#include <windows.h>
-#include <iostream>
-#include <iomanip>
-#include <string>
-#include <stdio.h>
-#include <stdlib.h>
-#include "MinHook.h"
-#include <tlhelp32.h>
-#include <Psapi.h>
-#include <thread>
-#include <chrono>
-#include <random>
-#include <functional>
 #include "hookutils.h"
-#include "spdlog/spdlog.h"
-#include <map>
-#include "Lua.h"
+#include "luahooks.h"
 #include "game.h"
+#include "render.h"
 #include "custommenu.h"
+#include "guiconsole.h"
+
+//#include "Lua.h"
+//#include "game.h"
+//#include "custommenu.h"
+//#include "guiconsole.h"
+//#include "render.h"
 //#pragma comment(lib, "lua53.lib")
 #if defined _M_X64
 #pragma comment(lib, "libMinHook-x64-v141-mdd.lib")
@@ -186,19 +178,6 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
 			if (command == "test")
 			{
 				std::cout << "Test function called!" << std::endl;
-				// uintptr_t debugtexta1 = 0x1400D3940;
-				// uintptr_t debugtexty = 0x1400A2E90;
-				// int debugtexta5 = 0xFFFFFF;
-
-				//	drawdebugtext_f(debugtexta1, "Debug Print Test!!!",1, debugtexty ,1, debugtexta5);
-
-				int stacksize = origTargetFunction(new_lua_State_ptr);
-				std::cout << stacksize << std::endl;
-
-				Lua::luaL_loadstring(new_lua_State_ptr, "SpawnEvent{ DisplayText = { text = \"THIS TEXT IS CALLED FROM LUA_DOFILE FROM C!\", x = 0, y = 0, duration = 3, fadeTime = 0.5, scale = 0.1 } }") || lua_pcallk(new_lua_State_ptr, 0, -1, 0, 0, NULL);
-				stacksize = origTargetFunction(new_lua_State_ptr);
-				std::cout << stacksize << std::endl;
-				input.clear();
 				commandfound = true;
 			}
 

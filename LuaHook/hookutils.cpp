@@ -1,13 +1,14 @@
-#include <windows.h>
-#include <psapi.h>
-#include <set>
-#include <map>
-#include <filesystem>
-#include <sstream>
-#include "MinHook.h"
+//#include <windows.h>
+//#include <psapi.h>
+//#include <set>
+//#include <map>
+//#include <filesystem>
+//#include <sstream>
+#include "stdafx.h"
+//#include "MinHook.h"
 #include "hookutils.h"
-#include "spdlog/spdlog.h"
-#include <iostream>
+//#include "spdlog/spdlog.h"
+//#include <iostream>
 
 void HookEnabler::CreateHook(LPVOID ppTarget, LPVOID ppDetour, LPVOID* ppOriginal, const char* targetName)
 {
