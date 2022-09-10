@@ -42,6 +42,9 @@
     <ClInclude Include="hookutils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sharedlibrary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

@@ -28,6 +28,7 @@
     Lua::_luaB_print Lua::origLuaBPrintFunction = NULL;
     bool Lua::luaStateObtained = false;
     int luastatus;
+
 int Lua::_gettop(lua_State *L) {
     // std::cout << "[!] Hook called :O" << std::endl;
     if (lua_State_ptr == 0) {

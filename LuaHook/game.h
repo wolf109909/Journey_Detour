@@ -10,9 +10,7 @@
 namespace Game
 {
     using namespace Lua;
-    extern uintptr_t game;
-    extern uintptr_t render;
-    extern uintptr_t matchmaker;
+
     //uintptr_t L;
     typedef int GetLevelUidType(Lua::lua_State*, char* LevelName);
     extern GetLevelUidType* GetLevelUid;
@@ -22,8 +20,9 @@ namespace Game
     extern unsigned __int8 someinteger;
 
     void UpdateValues();
-
+    void PreGameTick(__int64 game);
     char* CurrentLevelName();
+    void GameTick(__int64 game, float a2);
     int CurrentLevelUid();
     void SetBaseAddress(uintptr_t addr);
 

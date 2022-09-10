@@ -752,23 +752,7 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
 
 //gettop newFunction = NULL;
 
-void PreGameTick(__int64 game)
-{
-    Lua::ExecuteBuffer();
-    //std::cout << game << std::endl;
-    //Addtext(gamestructbase + 192, "TESTTEST", 0, 0, (unsigned int)0x14068AFF4, (float)0xFFFF);
-    //Addtext((gamestructbase + 192), "I live in Pre-Game::Update", -0.2, -0.1, 0.05, 0xFF0000FF);
-}
-void GameTick(__int64 game, float a2)
-{
-    gamestructbase = game;
-    Global::gamerender = *(int*)(game + 192);
-    //std::cout << game << std::endl;
-    PreGameTick(game);
 
-    origGameTickFunction(game, a2);
-    //Addtext(gamestructbase + 192, "TESTTEST", 0, 0, (unsigned int)0x14068AFF4, (float)0xFFFF);
-}
 
 int AddTextHook(__int64 a1, const char* text, float x, float y, float size, int color)
 {
