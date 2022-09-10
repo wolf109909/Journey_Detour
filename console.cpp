@@ -36,9 +36,9 @@ void GUIConsole::Draw() {
         float y = -(linenum * GUIConsole_charsize * 0.75);
         if (CountDown < CountDownLimit) {
             CountDown = 0;
-            Render::AddText(Game::GameRender, line.c_str(), x, y, GUIConsole_charsize, 0x30FFFFFF);
+            Render::AddText(Game::Render, line.c_str(), x, y, GUIConsole_charsize, 0x30FFFFFF);
         } else {
-            Render::AddText(Game::GameRender, line.c_str(), x, y, GUIConsole_charsize, 0xA0FFFFFF);
+            Render::AddText(Game::Render, line.c_str(), x, y, GUIConsole_charsize, 0xA0FFFFFF);
         }
         //AddText(GameRender, std::to_string(CountDown).c_str() , 0, 0, GUIConsole_charsize, 0xFF000000);
         linenum++;

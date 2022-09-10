@@ -99,11 +99,12 @@ void Lua::AppendBuffer(const std::string& buffer) {
 void Lua::ExecuteBuffer() {
     if (m_LuaExecuteBuffer.empty())
         return;
-
+    if (Game::LuaState == 0)
+        return;
     for (const auto& buffer: m_LuaExecuteBuffer) {
-        luaL_loadstring(new_lua_State_ptr, buffer.c_str());
-        if (lua_pcallk(new_lua_State_ptr, 0, 0, 0, 0, NULL) != 0) {
-            std::cout << "ERROR: " << lua_tostring(new_lua_State_ptr, -1, NULL) << std::endl;
+        luaL_loadstring((lua_State*)Game::LuaState, buffer.c_str());
+        if (lua_pcallk((lua_State*)Game::LuaState, 0, 0, 0, 0, NULL) != 0) {
+            std::cout << "ERROR: " << lua_tostring((lua_State*)Game::LuaState, -1, NULL) << std::endl;
         }
         //std::cout << "buffer executed" << std::endl;
         m_LuaExecuteBuffer.erase(m_LuaExecuteBuffer.begin());

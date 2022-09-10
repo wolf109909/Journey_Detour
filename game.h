@@ -12,9 +12,10 @@ namespace Game {
     typedef void(__cdecl *_tick)(__int64 a1, float a2);
 //    typedef int GetLevelUidType(Lua::lua_State *, char *LevelName);
     //uintptr_t L;
-//    extern uintptr_t        game;
-    extern uintptr_t        render;
-    extern uintptr_t        matchmaker;
+    extern uintptr_t        BaseGame;
+    extern uintptr_t        Render;
+    extern uintptr_t        Matchmaker;
+    extern uintptr_t        LuaState;
     extern _tick            Tick;
 
 //    extern GetLevelUidType  *GetLevelUid;
@@ -23,7 +24,6 @@ namespace Game {
     extern bool             autolobbybool2;
     extern unsigned __int8  someinteger;
 
-    extern uintptr_t        GameRender;
 
     void UpdateValues();
 

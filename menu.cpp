@@ -120,9 +120,9 @@ namespace Menu::GUI {
             std::string item_name = item.GetName();
             //spdlog::info(item.GetName().c_str());
             if (item_id == selectedItem) {
-                Render::AddText(Game::GameRender, item_name.c_str(), x, y, font_size, color_picked);
+                Render::AddText(Game::Render, item_name.c_str(), x, y, font_size, color_picked);
             } else {
-                Render::AddText(Game::GameRender, item_name.c_str(), x, y, font_size, color);
+                Render::AddText(Game::Render, item_name.c_str(), x, y, font_size, color);
             }
             //spdlog::info("X: {} Y:{} NAME: {} SIZE: {} COLOR: {}", x, y, item_name, font_size, color);
             //Sleep(1000);

@@ -874,7 +874,7 @@ int WINAPI main() {
 //    }
 
     // to juesto: uncomment this if you want to try running code from a new luastate. also change the two function calls using lua_state_ptr to new_ptr.
-    Lua::new_lua_State_ptr = Lua::CreateThread();
+    //Lua::new_lua_State_ptr = Lua::CreateThread();
     // luaL_loadfilex_f(new_lua_State_ptr, "main.lua", NULL) || lua_pcallk_f(new_lua_State_ptr, 0, -1, 0, 0, NULL);
 
     consoleInputThreadHandle = CreateThread(0, 0, ConsoleInputThread, 0, 0, NULL);
