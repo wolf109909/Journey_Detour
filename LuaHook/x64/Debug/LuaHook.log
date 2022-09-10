@@ -1,15 +1,15 @@
-﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(534,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (Flower_Detour.vcxproj, LuaHook.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+﻿D:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(514,5): warning MSB8028: 中间目录(x64\Debug\)包含从另一个项目(LuaHook.vcxproj)共享的文件。   这会导致错误的清除和重新生成行为。
   Journey_Detour.cpp
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\guiconsole.h(13,34): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\guiconsole.h(56,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\guiconsole.h(60,5): error C2653: 'Render': is not a class or namespace name
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\guiconsole.h(60,13): error C3861: 'Addtext': identifier not found
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\guiconsole.h(64,5): error C2653: 'Render': is not a class or namespace name
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\guiconsole.h(64,13): error C3861: 'Addtext': identifier not found
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\render.h(27,3): error C2653: 'MenuSystem': is not a class or namespace name
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\render.h(27,20): error C3861: 'Draw': identifier not found
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\render.h(35,83): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\custommenu.h(44,39): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\custommenu.h(67,28): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\custommenu.h(128,22): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\custommenu.h(130,24): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\scrci\Downloads\Journey_Detour-before_refactor\Journey_Detour-before_refactor\LuaHook\Journey_Detour.cpp(798,95): warning C4305: “参数”: 从“double”到“float”截断
+C:\Users\scrci\Downloads\Journey_Detour-before_refactor\Journey_Detour-before_refactor\LuaHook\Journey_Detour.cpp(948,13): warning C4101: “status”: 未引用的局部变量
+  game.cpp
+C:\Users\scrci\Downloads\Journey_Detour-before_refactor\Journey_Detour-before_refactor\LuaHook\game.cpp(19,54): warning C4312: “类型强制转换”: 从“int”转换到更大的“bool *”
+C:\Users\scrci\Downloads\Journey_Detour-before_refactor\Journey_Detour-before_refactor\LuaHook\game.cpp(20,54): warning C4312: “类型强制转换”: 从“int”转换到更大的“bool *”
+  lua.cpp
+  menu.cpp
+C:\Users\scrci\Downloads\Journey_Detour-before_refactor\Journey_Detour-before_refactor\LuaHook\menu.cpp(16,44): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\scrci\Downloads\Journey_Detour-before_refactor\Journey_Detour-before_refactor\LuaHook\menu.cpp(36,30): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\scrci\Downloads\Journey_Detour-before_refactor\Journey_Detour-before_refactor\LuaHook\menu.cpp(105,24): warning C4305: “初始化”: 从“double”到“float”截断
+C:\Users\scrci\Downloads\Journey_Detour-before_refactor\Journey_Detour-before_refactor\LuaHook\menu.cpp(107,26): warning C4305: “初始化”: 从“double”到“float”截断
+  正在生成代码...
+  LuaHook.vcxproj -> C:\Users\scrci\Downloads\Journey_Detour-before_refactor\Journey_Detour-before_refactor\x64\Debug\Journey_Detour.dll

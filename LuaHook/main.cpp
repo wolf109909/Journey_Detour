@@ -8,7 +8,7 @@
 #include <string>
 #include <cstdio>
 #include <cstdlib>
-#include "MinHook.h"
+#include "include/MinHook.h"
 #include <Psapi.h>
 #include <thread>
 #include <chrono>
@@ -32,11 +32,11 @@
 
 typedef void(__cdecl* _phyreprint)(unsigned int severity, const char* a2, ...);
 typedef void(__cdecl* _netgui)(__int64 a1, __int64 a2, float a3);
-typedef void(__cdecl* _gametick)(__int64 a1, float a2);
+typedef void(__cdecl* _gametick)(__int64 a1, float a2 );
 //typedef int(__cdecl* _addtext)(__int64 a1, const char* text, float x, float y, float size, int color);
 
-typedef __int64(__cdecl* _getconsole)(char*);
-typedef __int64(__cdecl* _printluamem)(__int64);
+typedef __int64(__cdecl *_getconsole)(char *);
+typedef __int64(__cdecl *_printluamem)(__int64);
 
 typedef void logPointer(std::string name, uint64_t pointer);
 
@@ -54,8 +54,8 @@ _printluamem printluamem_f = (_printluamem)0x1400F0B90;
 
 
 
-typedef LONG(NTAPI* NtSuspendProcess)(IN HANDLE ProcessHandle);
-typedef LONG(NTAPI* NtResumeProcess)(IN HANDLE ProcessHandle);
+typedef LONG(NTAPI *NtSuspendProcess)(IN HANDLE ProcessHandle);
+typedef LONG(NTAPI *NtResumeProcess)(IN HANDLE ProcessHandle);
 
 
 //bool isNetGUIEnabled = false;
@@ -503,7 +503,7 @@ void initializeInGameLogging()
 DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
 {
 
-    FILE* fp = nullptr;
+    FILE *fp = nullptr;
     freopen_s(&fp, "CONIN$", "r", stdin);
     using namespace std::chrono_literals;
     std::this_thread::sleep_for(2000ms);
@@ -559,7 +559,7 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
                 {
                     input = input.substr(7);
                 }
-                catch (std::out_of_range&)
+                catch (std::out_of_range &)
                 {
                     std::cout << "script error: no input given!" << std::endl;
                     continue;
@@ -583,7 +583,7 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter)
                     input = input.substr(11);
                 }
 
-                catch (std::out_of_range&)
+                catch (std::out_of_range &)
                 {
                     std::cout << "queuelevel error: no input given!" << std::endl;
                     continue;
@@ -759,7 +759,7 @@ void PreGameTick(__int64 game)
     //Addtext(gamestructbase + 192, "TESTTEST", 0, 0, (unsigned int)0x14068AFF4, (float)0xFFFF);
     //Addtext((gamestructbase + 192), "I live in Pre-Game::Update", -0.2, -0.1, 0.05, 0xFF0000FF);
 }
-void GameTick(__int64 game, float a2)
+void GameTick(__int64 game,float a2)
 {
     gamestructbase = game;
     Global::gamerender = *(int*)(game + 192);
@@ -811,9 +811,9 @@ void NetGuiHook(__int64 a1, __int64 a2, float a3)
 
 // Get all module related info, this will include the base DLL.
 // and the size of the module
-MODULEINFO GetModuleInfo(char* szModule)
+MODULEINFO GetModuleInfo(char *szModule)
 {
-    MODULEINFO modinfo = { 0 };
+    MODULEINFO modinfo = {0};
     HMODULE hModule = GetModuleHandle(szModule);
     if (hModule == 0)
         return modinfo;
@@ -822,7 +822,7 @@ MODULEINFO GetModuleInfo(char* szModule)
 }
 
 // Pattern Scan https://guidedhacking.com/threads/c-signature-scan-pattern-scanning-tutorial-difficulty-3-10.3981
-uintptr_t FindPattern(char* module, char* pattern, char* mask)
+uintptr_t FindPattern(char *module, char *pattern, char *mask)
 {
     // Get all module related information
     MODULEINFO mInfo = GetModuleInfo(module);
@@ -842,7 +842,7 @@ uintptr_t FindPattern(char* module, char* pattern, char* mask)
         {
             // if we have a ? in our mask then we have true by default,
             // or if the bytes match then we keep searching until finding it or not
-            found &= mask[j] == '?' || pattern[j] == *(char*)(base + i + j);
+            found &= mask[j] == '?' || pattern[j] == *(char *)(base + i + j);
         }
 
         // found = true, our entire pattern was found
@@ -865,7 +865,7 @@ void PhyrePrintf(unsigned int severity, const char* a2, ...)
     va_end(args);
 }
 
-const char* __cdecl hooked_debug_print(const char* fmt, ...)
+const char *__cdecl hooked_debug_print(const char *fmt, ...)
 {
     if (!Global::redirectconsoleoutput)
     {
@@ -874,7 +874,7 @@ const char* __cdecl hooked_debug_print(const char* fmt, ...)
     va_list args;
     char buffer[16384];
     va_start(args, fmt);
-    vsprintf(buffer, fmt, args);
+    vsprintf(buffer,fmt,args);
     va_end(args);
     spdlog::info(buffer);
     GUIConsole::AppendLine(buffer);
@@ -889,19 +889,19 @@ int detourLuaState()
     using namespace Lua;
     HookEnabler hook;
     ENABLER_CREATEHOOK(
-        hook, (LPVOID)0x14031AEC0, &_gettop, reinterpret_cast<LPVOID*>(&origTargetFunction));
+            hook, (LPVOID)0x14031AEC0, &_gettop, reinterpret_cast<LPVOID*>(&origTargetFunction));
     ENABLER_CREATEHOOK(
-        hook, (LPVOID)0x1402E3090, &hooked_debug_print, reinterpret_cast<LPVOID*>(&origTargetdebugprintFunction));
+            hook, (LPVOID)0x1402E3090, &hooked_debug_print, reinterpret_cast<LPVOID*>(&origTargetdebugprintFunction));
     ENABLER_CREATEHOOK(
-        hook, (LPVOID)0x140333040, &luaB_print_f, reinterpret_cast<LPVOID*>(&origLuaBPrintFunction));
+            hook, (LPVOID)0x140333040, &luaB_print_f, reinterpret_cast<LPVOID*>(&origLuaBPrintFunction));
     ENABLER_CREATEHOOK(
-        hook, (LPVOID)0x1400DAD40, &GameTick, reinterpret_cast<LPVOID*>(&origGameTickFunction));
+            hook, (LPVOID)0x1400DAD40, &GameTick, reinterpret_cast<LPVOID*>(&origGameTickFunction));
     ENABLER_CREATEHOOK(
-        hook, (LPVOID)0x14010DA00, &NetGuiHook, reinterpret_cast<LPVOID*>(&origNetGuiFunction));
+            hook, (LPVOID)0x14010DA00, &NetGuiHook, reinterpret_cast<LPVOID*>(&origNetGuiFunction));
     ENABLER_CREATEHOOK(
-        hook, (LPVOID)0x14026EAA0, &AddTextHook, reinterpret_cast<LPVOID*>(&Global::Addtext));
+            hook, (LPVOID)0x14026EAA0, &AddTextHook, reinterpret_cast<LPVOID*>(&Global::Addtext));
     ENABLER_CREATEHOOK(
-        hook, (LPVOID)0x140381B60, &PhyrePrintf, reinterpret_cast<LPVOID*>(&origPhyrePrintFunction));
+            hook, (LPVOID)0x140381B60, &PhyrePrintf, reinterpret_cast<LPVOID*>(&origPhyrePrintFunction));
 
     return 0;
 
@@ -978,7 +978,7 @@ int WINAPI main()
 
         if (GetAsyncKeyState(VK_F1) & 1)
         {
-            std::cout << "[*] Waiting for debugger..." << std::endl;
+            std::cout << "[*] Waiting for debugger..." <<std::endl;
             Lua::AppendBuffer("debugmode=1");
         }
         if (GetAsyncKeyState(VK_F3) & 1)
@@ -1022,20 +1022,20 @@ int WINAPI main()
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule,
-    DWORD ul_reason_for_call,
-    LPVOID lpReserved)
+                      DWORD ul_reason_for_call,
+                      LPVOID lpReserved)
 {
     switch (ul_reason_for_call)
     {
-    case DLL_PROCESS_ATTACH:
-    {
-        DisableThreadLibraryCalls(hModule);
-        CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)main, NULL, NULL, NULL);
-    }
-    case DLL_THREAD_ATTACH:
-    case DLL_THREAD_DETACH:
-    case DLL_PROCESS_DETACH:
-        break;
+        case DLL_PROCESS_ATTACH:
+        {
+            DisableThreadLibraryCalls(hModule);
+            CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)main, NULL, NULL, NULL);
+        }
+        case DLL_THREAD_ATTACH:
+        case DLL_THREAD_DETACH:
+        case DLL_PROCESS_DETACH:
+            break;
     }
     return TRUE;
 }

@@ -76,7 +76,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>H:\Coding\Repositories\Journey_Detour\lua-5.3.4;H:\Coding\Repositories\Journey_Detour\LRDB-main\third_party\picojson;H:\Coding\Repositories\Journey_Detour\LRDB-main\third_party\googletest\include;H:\Coding\Repositories\Journey_Detour\LRDB-main\third_party\asio\asio\include;H:\Coding\Repositories\Journey_Detour\LRDB-main\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -109,7 +109,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\wolf109909\Documents\GitHub\Journey_Detour\LuaHook\include;$(ProjectDir)..\..\resources\MinHook\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -160,26 +160,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="guiconsole.h" />
+    <ClInclude Include="console.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="custommenu.h" />
-    <ClInclude Include="render.h" />
-    <ClInclude Include="hooks.h" />
-    <ClInclude Include="lua.h" />
     <ClInclude Include="hookutils.h" />
+    <ClInclude Include="lua.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="string-utils.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="console.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="Journey_Detour.cpp" />
     <ClCompile Include="hookutils.cpp" />
+    <ClCompile Include="lua.cpp" />
+    <ClCompile Include="menu.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Journey_Detour.sln" />
