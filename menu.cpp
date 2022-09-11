@@ -3,20 +3,50 @@
 //
 
 #include "menu.h"
-
 #include <utility>
 #include "lua.h"
 #include "utils.h"
 #include "game.h"
 
+
+bool MenuParsed = false;
 int selectedItem = 0;
-std::map<int, Menu::Item *> MenuItems;
+//std::map<int, Menu::Page *> MenuPages;
+
+
+std::string Menu::Page::GetName() 
+{
+    return this->PageName;
+}
+
+Menu::Page* GetPageByName(std::string name) 
+{
+    for (Menu::Page* pageptr : Menu::Pages) 
+    {
+        Menu::Page page = *pageptr;
+        spdlog::info("search:{},target:{}", page.GetName(), name);
+        if (page.GetName() == name)
+            return pageptr;
+    }
+    spdlog::warn("GetPageByName(): Can't find page with name {}",name);
+}
+
+Menu::Page* Menu::GetActivePage()
+{
+    return Menu::ActivePage;
+}
+
+void Menu::ChangeActivePage(Page* page)
+{
+    Menu::ActivePage = page;
+    selectedItem = 0;
+}
 
 void onSelectionChanged() {
     if (selectedItem < 0)
+        selectedItem = Menu::GetActivePage()->GetItems().size() - 1;
+    if (selectedItem > Menu::GetActivePage()->GetItems().size() - 1)
         selectedItem = 0;
-    if (selectedItem > MenuItems.size() - 1)
-        selectedItem = MenuItems.size() - 1;
 }
 
 void Menu::SelectPreviousItem() {
@@ -30,29 +60,31 @@ void Menu::SelectNextItem() {
 }
 
 void Menu::ExecuteItem() {
-    Item item = *MenuItems[selectedItem];
-    item.Execute();
+    Menu::GetActivePage()->GetItems()[selectedItem]->Execute();
 }
 
-void Menu::AddItem(const std::string& itemName, Action function) {
-    Item *item = new Item(itemName, function);
-    int id = MenuItems.size();
-    spdlog::info("Added menu item {},id {}", itemName, id);
-    MenuItems.insert_or_assign(id, item);
-}
+
 
 void Menu::Initialize() {
-    AddItem("ToggleNetGui",     &Actions::ToggleNetGui);
-    AddItem("ToggleConsole",    &Actions::ToggleConsole);
-    AddItem("CycleDebugHud",    &Actions::CycleDebugHud);
-    AddItem("SetMaxOutfit",     &Actions::SetMaxOutfit);
-    AddItem("SetMaxCloth",      &Actions::SetMaxCloth);
-    AddItem("FillScarf",        &Actions::FillScarf);
-    AddItem("GotoNick",         &Actions::GotoNick);
-    AddItem("ToggleMusic",      &Actions::ToggleMusic);
+    Menu::Page* mainmenu = new Menu::Page("mainmenu");
+        mainmenu->InsertItem(new Menu::Item("ToggleNetGui", &Actions::ToggleNetGui));
+        mainmenu->InsertItem(new Menu::Item("ToggleConsole", &Actions::ToggleConsole));
+        mainmenu->InsertItem(new Menu::Item("CycleDebugHud", &Actions::CycleDebugHud));
+        mainmenu->InsertItem(new Menu::Item("SetMaxOutfit", &Actions::SetMaxOutfit));
+        mainmenu->InsertItem(new Menu::Item("SetMaxCloth", &Actions::SetMaxCloth));
+        mainmenu->InsertItem(new Menu::Item("FillScarf", &Actions::FillScarf));
+        mainmenu->InsertItem(new Menu::Item("GotoNick", &Actions::GotoNick));
+        mainmenu->InsertItem(new Menu::Item("ToggleMusic", &Actions::ToggleMusic));
+        
+        Menu::ChangeActivePage(GetPageByName("mainmenu"));
 
+        MenuParsed = true;
 }
 
+void Menu::Actions::GotoMainMenu() 
+{
+    Menu::ChangeActivePage(GetPageByName("mainmenu"));
+}
 void Menu::Actions::Test() {
     Lua::AppendBuffer("game:QueueLevel(\"Level_Desert\")");
 }
@@ -103,6 +135,24 @@ std::string Menu::Item::GetName() {
     return this->ItemName;
 }
 
+
+Menu::Page::Page(std::string name)
+{
+    this->Items;
+    this->PageName = name;
+    Pages.push_back(this);
+}
+
+void Menu::Page::InsertItem(Item* item) 
+{
+    this->Items.push_back(item);
+}
+
+std::vector<Menu::Item*> Menu::Page::GetItems()
+{
+    return this->Items;
+}
+
 namespace Menu::GUI {
     float offset_x = 1.2;
     float offset_y = 0.75;
@@ -111,20 +161,27 @@ namespace Menu::GUI {
     unsigned int color_picked = 0xFF0000FF;
 
     void Draw() {
-        for (auto item_map: MenuItems) {
+        if (!MenuParsed) 
+        {
+            return;
+        }
+
+        int id = 0;
+        for (auto item : Menu::GetActivePage()->GetItems()) {
             //Item item = *item;
-            int item_id = item_map.first;
-            Item item = *item_map.second;
             float x = offset_x;
-            float y = offset_y - font_size * item_id;
-            std::string item_name = item.GetName();
+            float y = offset_y - font_size * id;
+            //std::string item_name = item->GetName();
             //spdlog::info(item.GetName().c_str());
-            if (item_id == selectedItem) {
-                Render::AddText(Game::Render, item_name.c_str(), x, y, font_size, color_picked);
+            if (id == selectedItem) {
+                Render::AddText(Game::Render, item->GetName().c_str(), x, y, font_size, color_picked);
             } else {
-                Render::AddText(Game::Render, item_name.c_str(), x, y, font_size, color);
+                Render::AddText(Game::Render, item->GetName().c_str(), x, y, font_size, color);
             }
-            //spdlog::info("X: {} Y:{} NAME: {} SIZE: {} COLOR: {}", x, y, item_name, font_size, color);
+
+            id++;
+            //spd
+            // log::info("X: {} Y:{} NAME: {} SIZE: {} COLOR: {}", x, y, item_name, font_size, color);
             //Sleep(1000);
             //AddText(GameRender, std::to_string(CountDown).c_str() , 0, 0, GUIConsole_charsize, 0xFF000000);
         }

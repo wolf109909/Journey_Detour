@@ -15,6 +15,8 @@ namespace Game {
     extern uintptr_t        BaseGame;
     extern uintptr_t        Render;
     extern uintptr_t        Matchmaker;
+    extern uintptr_t        PlayerBarn;
+    extern uintptr_t        LocalDude;
     extern uintptr_t        LuaState;
     extern _tick            Tick;
 

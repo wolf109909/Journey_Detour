@@ -9,9 +9,12 @@
 #include "sharedlibrary.h"
 #include "render.h"
 
+
 namespace Menu {
+
     typedef void (*Action)(); // function pointer type
-    class Item {
+    class Item 
+    {
     private:
         std::string ItemName;
         Action function;
@@ -23,10 +26,32 @@ namespace Menu {
         std::string GetName();
     };
 
+  
+    class Page 
+    {
+    private:
+        std::string PageName;
+        std::vector<Item*> Items;
+        //Action OnExit;
+    public:
+        Page(std::string name);
+        void InsertItem(Item*);
+        std::string GetName();
+        std::vector<Item*> GetItems();
+    };
+
+
+    Page* ActivePage;
+    std::vector<Page*> Pages;
+ 
+   
 //    extern int selectedItem;
 //    extern std::map<int, Item *> MenuItems;
 
 //    void onSelectionChanged();// no reference
+    Page* GetActivePage();
+
+    void ChangeActivePage(Page* page);
 
     void SelectPreviousItem();
 
@@ -34,11 +59,12 @@ namespace Menu {
 
     void ExecuteItem();
 
-    void AddItem(const std::string& itemName, Action function);
-
     void Initialize();
 
     namespace Actions {
+
+        void GotoMainMenu();
+        
         void Test();
 
         void ToggleNetGui();
