@@ -55,24 +55,26 @@ void PreGameTick(__int64 mGame) {
 
 
 void TickHook(__int64 mGame, float a2) {
-
+    //spdlog::info(a2);
     if(Game::BaseGame == 0)
     {
         spdlog::info("Game: Obtaining Game");
         Game::BaseGame = mGame;
         spdlog::info("Game::BaseGame : {}", Game::BaseGame);
         Game::UpdateValues();
+        Game::Tick(mGame, a2);
     }
     else 
     {
         PreGameTick(mGame);
         Game::Tick(mGame, a2);
+        
     }
 
     //std::cout << mGame << std::endl;
     
 
-    Game::Tick(mGame, a2);
+    //Game::Tick(mGame, a2);
     //AddText(gamestructbase + 192, "TESTTEST", 0, 0, (unsigned int)0x14068AFF4, (float)0xFFFF);
 }
 

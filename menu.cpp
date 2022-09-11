@@ -37,12 +37,12 @@ void Menu::ExecuteItem() {
 void Menu::AddItem(const std::string& itemName, Action function) {
     Item *item = new Item(itemName, function);
     int id = MenuItems.size();
-    spdlog::info("Adding menu item {},id {}", itemName, id);
+    spdlog::info("Added menu item {},id {}", itemName, id);
     MenuItems.insert_or_assign(id, item);
 }
 
 void Menu::Initialize() {
-    AddItem("ToggleNetGui",     &Actions::Test);
+    AddItem("ToggleNetGui",     &Actions::ToggleNetGui);
     AddItem("ToggleConsole",    &Actions::ToggleConsole);
     AddItem("CycleDebugHud",    &Actions::CycleDebugHud);
     AddItem("SetMaxOutfit",     &Actions::SetMaxOutfit);
