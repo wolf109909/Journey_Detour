@@ -77,7 +77,7 @@ void Menu::Initialize() {
         mainmenu->InsertItem(new Menu::Item("GotoNick", &Actions::GotoNick));
         mainmenu->InsertItem(new Menu::Item("ToggleMusic", &Actions::ToggleMusic));
         
-        Menu::ChangeActivePage(GetPageByName("mainmenu"));
+        Menu::ChangeActivePage(mainmenu);
 
         MenuParsed = true;
 }
