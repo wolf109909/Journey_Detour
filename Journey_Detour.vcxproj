@@ -139,6 +139,7 @@
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="render.cpp" />
     <ClCompile Include="utils.cpp" />
+    <ClCompile Include="vardisplay.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="console.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="render.h" />
     <ClInclude Include="sharedlibrary.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="vardisplay.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,6 +3,7 @@
 //
 
 #include "render.h"
+#include "vardisplay.h"
 
 Render::_addtext Render::AddText = NULL;
 Render::_netgui Render::NetGui = NULL;
@@ -15,6 +16,7 @@ int Render::AddTextHook(__int64 a1, const char *text, float x, float y, float si
 void CustomTextDoRender() {
     GUIConsole::Draw();
     Menu::GUI::Draw();
+    VarDisplay::Draw();
 }
 
 void Render::NetGuiHook(__int64 a1, __int64 a2, float a3) {

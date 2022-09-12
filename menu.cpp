@@ -12,7 +12,8 @@
 bool MenuParsed = false;
 int selectedItem = 0;
 //std::map<int, Menu::Page *> MenuPages;
-
+Menu::Page* ActivePage;
+std::vector<Menu::Page*> Pages;
 
 std::string Menu::Page::GetName() 
 {
@@ -21,7 +22,7 @@ std::string Menu::Page::GetName()
 
 Menu::Page* GetPageByName(std::string name) 
 {
-    for (Menu::Page* pageptr : Menu::Pages) 
+    for (Menu::Page* pageptr : Pages) 
     {
         Menu::Page page = *pageptr;
         spdlog::info("search:{},target:{}", page.GetName(), name);
@@ -33,12 +34,12 @@ Menu::Page* GetPageByName(std::string name)
 
 Menu::Page* Menu::GetActivePage()
 {
-    return Menu::ActivePage;
+    return ActivePage;
 }
 
 void Menu::ChangeActivePage(Page* page)
 {
-    Menu::ActivePage = page;
+    ActivePage = page;
     selectedItem = 0;
 }
 

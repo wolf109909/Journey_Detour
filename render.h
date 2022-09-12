@@ -10,6 +10,7 @@
 #include "game.h"
 #include "console.h"
 #include "menu.h"
+#include "vardisplay.h"
 
 namespace Render {
     typedef int(__cdecl *_addtext)(__int64 a1, const char *text, float x, float y, float size, int color);

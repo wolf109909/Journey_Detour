@@ -41,8 +41,7 @@ namespace Menu {
     };
 
 
-    Page* ActivePage;
-    std::vector<Page*> Pages;
+    
  
    
 //    extern int selectedItem;

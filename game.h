@@ -5,7 +5,7 @@
 #ifndef CL1_GAME_H
 #define CL1_GAME_H
 
-#include "sharedlibrary.h"
+//#include "sharedlibrary.h"
 #include "lua.h"
 
 namespace Game {
@@ -16,7 +16,7 @@ namespace Game {
     extern uintptr_t        Render;
     extern uintptr_t        Matchmaker;
     extern uintptr_t        PlayerBarn;
-    extern uintptr_t        LocalDude;
+    //extern uintptr_t        LocalDude;
     extern uintptr_t        LuaState;
     extern _tick            Tick;
 
@@ -36,5 +36,19 @@ namespace Game {
     void SetBaseAddress(uintptr_t addr);
 
     void Initialize(HookEnabler hook);
+
+    namespace LocalDude 
+    {
+        extern float XPos;
+        extern float YPos;
+        extern float ZPos;
+
+        extern float XAccel;
+        extern float YAccel;
+        extern float ZAccel;
+
+        extern int ScarfCharge;
+        extern int ScarfMax;
+    };
 };
 #endif //CL1_GAME_H

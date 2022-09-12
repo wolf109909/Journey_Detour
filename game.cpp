@@ -10,7 +10,18 @@ uintptr_t Game::BaseGame = 0;
 uintptr_t Game::LuaState = 0;
 uintptr_t Game::Matchmaker = 0;
 uintptr_t Game::PlayerBarn = 0;
-uintptr_t Game::LocalDude = 0;
+float Game::LocalDude::XPos = 0;
+float Game::LocalDude::YPos = 0;
+float Game::LocalDude::ZPos = 0;
+
+float Game::LocalDude::XAccel = 0;
+float Game::LocalDude::YAccel = 0;
+float Game::LocalDude::ZAccel = 0;
+
+int Game::LocalDude::ScarfCharge = 0;
+int Game::LocalDude::ScarfMax = 0;
+
+//uintptr_t Game::LocalDude = 0;
 GetLevelUidType *GetLevelUid = (GetLevelUidType *) Global::Bases::GetLevelUid;
 uintptr_t Game::Render = 0;
 Game::_tick Game::Tick;
@@ -30,13 +41,15 @@ void Game::UpdateValues() {
 
     PlayerBarn = *(int*)(BaseGame + 480);
     spdlog::info("Game::PlayerBarn : {}", PlayerBarn);
-    LocalDude = *(int*)(BaseGame + 480 + 176);
-    spdlog::info("Game::LocalDude : {}", LocalDude);
+    //LocalDude = *(int*)(BaseGame + 480 + 176);
+    //spdlog::info("Game::LocalDude : {}", LocalDude);
     //RemoteDude = *(int*)(BaseGame + 480);
     //spdlog::info("Game::RemoteDude : {}", RemoteDude);
     //someinteger = *(unsigned __int8 *) (Matchmaker + 1536);
     //autolobbybool1 = *(bool *) (someinteger + 1057);
     //autolobbybool2 = *(bool *) (someinteger + 1058);
+
+
 
 }
 
