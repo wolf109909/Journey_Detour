@@ -48,16 +48,7 @@ void Game::UpdateValues() {
     //someinteger = *(unsigned __int8 *) (Matchmaker + 1536);
     //autolobbybool1 = *(bool *) (someinteger + 1057);
     //autolobbybool2 = *(bool *) (someinteger + 1058);
-    Game::LocalDude::XPos = *(float*)(Game::PlayerBarn + 0xC0);
-    Game::LocalDude::YPos = *(float*)(Game::PlayerBarn + 0xC4);
-    Game::LocalDude::ZPos = *(float*)(Game::PlayerBarn + 0xC8);
 
-    Game::LocalDude::XAccel = *(float*)(Game::PlayerBarn + 0xD4);
-    Game::LocalDude::YAccel = *(float*)(Game::PlayerBarn + 0xD8);
-    Game::LocalDude::ZAccel = *(float*)(Game::PlayerBarn + 0xDC);
-
-    Game::LocalDude::ScarfCharge = *(int*)(Game::PlayerBarn + 0x118);
-    Game::LocalDude::ScarfMax = *(int*)(Game::PlayerBarn + 0x11C);
 
 
 }

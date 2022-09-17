@@ -8,7 +8,6 @@
 #include "utils.h"
 #include "game.h"
 
-
 bool MenuParsed = false;
 int selectedItem = 0;
 //std::map<int, Menu::Page *> MenuPages;
