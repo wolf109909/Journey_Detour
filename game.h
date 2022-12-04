@@ -1,9 +1,4 @@
-//
-// Created by scrci on 2022/9/10.
-//
 #pragma once
-#ifndef CL1_GAME_H
-#define CL1_GAME_H
 
 //#include "sharedlibrary.h"
 #include "lua.h"
@@ -51,4 +46,4 @@ namespace Game {
         extern int ScarfMax;
     };
 };
-#endif //CL1_GAME_H
+

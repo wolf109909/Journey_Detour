@@ -1,9 +1,6 @@
-//
-// Created by scrci on 2022/9/10.
-//
+
 #pragma once
-#ifndef CL1_LUA_H
-#define CL1_LUA_H
+
 
 #include "sharedlibrary.h"
 #include "hookutils.h"
@@ -109,5 +106,5 @@ namespace Lua {
     void ExecuteBuffer();
 
     void Initialize(HookEnabler hook);
-}
-#endif //CL1_LUA_H
+};
+

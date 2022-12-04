@@ -1,9 +1,4 @@
-
-// Created by scrci on 2022/9/10.
-//
 #pragma once
-#ifndef CL1_MENU_H
-#define CL1_MENU_H
 
 #include <map>
 #include "sharedlibrary.h"
@@ -87,4 +82,3 @@ namespace Menu {
         void Draw();
     }
 }
-#endif //CL1_MENU_H

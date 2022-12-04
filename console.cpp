@@ -1,6 +1,4 @@
-//
-// Created by scrci on 2022/9/10.
-//
+
 #define _CRT_SECURE_NO_WARNINGS
 
 #include "console.h"

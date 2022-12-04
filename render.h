@@ -1,9 +1,5 @@
-//
-// Created by scrci on 2022/9/10.
-//
 
-#ifndef CL1_RENDER_H
-#define CL1_RENDER_H
+#pragma once
 
 #include "utils.h"
 #include "hookutils.h"
@@ -25,4 +21,4 @@ namespace Render {
 
     void Initialize(HookEnabler hook);
 }
-#endif //CL1_RENDER_H
+

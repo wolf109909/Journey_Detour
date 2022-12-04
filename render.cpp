@@ -1,7 +1,4 @@
-//
-// Created by scrci on 2022/9/10.
-//
-
+#include "offsets.h"
 #include "render.h"
 #include "vardisplay.h"
 
@@ -34,7 +31,7 @@ void Render::NetGuiHook(__int64 a1, __int64 a2, float a3) {
 
 void Render::Initialize(HookEnabler hook) {
     ENABLER_CREATEHOOK(
-            hook, (LPVOID) Global::Bases::AddText, &Render::AddTextHook, reinterpret_cast<LPVOID *>(&Render::AddText));
+            hook, (LPVOID) g_Offsets->AddText, &Render::AddTextHook, reinterpret_cast<LPVOID *>(&Render::AddText));
     ENABLER_CREATEHOOK(
-            hook, (LPVOID) Global::Bases::NetGui, &Render::NetGuiHook, reinterpret_cast<LPVOID *>(&Render::NetGui));
+            hook, (LPVOID) g_Offsets->NetGui, &Render::NetGuiHook, reinterpret_cast<LPVOID *>(&Render::NetGui));
 }

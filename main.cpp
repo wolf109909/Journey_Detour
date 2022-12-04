@@ -19,6 +19,7 @@
 #include "console.h"
 #include "utils.h"
 #include "render.h"
+#include "offsets.h"
 //#pragma comment(lib, "lua53.lib")
 #if defined _M_X64
 #pragma comment(lib, "libMinHook-x64-v141-mdd.lib")
@@ -50,8 +51,8 @@
 //Global::_gametick BaseGameTick = (Global::_gametick) Global::Bases::GameTick;
 //_addtext AddText = (_addtext)0x14026EAA0;
 
-Global::_getconsole GetConsole = (Global::_getconsole) Global::Bases::GetConsole;
-Global::_printluamem PrintLuaMem = (Global::_printluamem) Global::Bases::PrintLuaMem;
+Global::_getconsole GetConsole = (Global::_getconsole) g_Offsets->GetConsole;
+Global::_printluamem PrintLuaMem = (Global::_printluamem) g_Offsets->PrintLuaMem;
 
 
 //typedef LONG(NTAPI *NtSuspendProcess)(IN HANDLE ProcessHandle);
@@ -695,7 +696,7 @@ void ConsoleSetup()
 {
 
     AllocConsole();
-    SetConsoleTitle("[+] Journey lua hook test");
+    SetConsoleTitle((LPCWSTR)"[+] Journey lua hook test");
     freopen("CONOUT$", "w", stdout);
     freopen("CONOUT$", "w", stderr);
     // freopen("CONIN$", "r", stdin);

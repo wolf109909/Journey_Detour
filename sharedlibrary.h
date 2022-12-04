@@ -1,9 +1,4 @@
-//
-// Created by scrci on 2022/9/10.
-//
 
-#ifndef CL1_SHAREDLIBRARY_H
-#define CL1_SHAREDLIBRARY_H
 
 #include <string>
 #include <iostream>
@@ -15,5 +10,3 @@
 #include "MinHook.h"
 
 #include "utils.h"
-
-#endif //CL1_SHAREDLIBRARY_H

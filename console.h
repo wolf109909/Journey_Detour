@@ -1,10 +1,4 @@
-//
-// Created by scrci on 2022/9/10.
-//
 #pragma once
-#ifndef CL1_CONSOLE_H
-#define CL1_CONSOLE_H
-
 #include "sharedlibrary.h"
 #include "render.h"
 
@@ -27,4 +21,3 @@ namespace GUIConsole {
 
 //void InitializeLuaGUI();
 
-#endif //CL1_CONSOLE_H

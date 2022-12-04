@@ -1,7 +1,5 @@
-//
-// Created by scrci on 2022/9/10.
-//
 
+#include"offsets.h"
 #include "game.h"
 
 typedef int GetLevelUidType(Lua::lua_State *, char *LevelName);
@@ -10,25 +8,25 @@ uintptr_t Game::BaseGame = 0;
 uintptr_t Game::LuaState = 0;
 uintptr_t Game::Matchmaker = 0;
 uintptr_t Game::PlayerBarn = 0;
-float Game::LocalDude::XPos = 0;
-float Game::LocalDude::YPos = 0;
-float Game::LocalDude::ZPos = 0;
+float* Game::LocalDude::XPos = 0;
+float* Game::LocalDude::YPos = 0;
+float* Game::LocalDude::ZPos = 0;
 
-float Game::LocalDude::XAccel = 0;
-float Game::LocalDude::YAccel = 0;
-float Game::LocalDude::ZAccel = 0;
+float* Game::LocalDude::XAccel = 0;
+float* Game::LocalDude::YAccel = 0;
+float* Game::LocalDude::ZAccel = 0;
 
-int Game::LocalDude::ScarfCharge = 0;
-int Game::LocalDude::ScarfMax = 0;
+int* Game::LocalDude::ScarfCharge = 0;
+int* Game::LocalDude::ScarfMax = 0;
 
 //uintptr_t Game::LocalDude = 0;
-GetLevelUidType *GetLevelUid = (GetLevelUidType *) Global::Bases::GetLevelUid;
+GetLevelUidType *GetLevelUid = (GetLevelUidType *) g_Offsets->GetLevelUid;
 uintptr_t Game::Render = 0;
 Game::_tick Game::Tick;
 
 
-bool Game::autolobbybool1;
-bool Game::autolobbybool2;
+bool* Game::autolobbybool1;
+bool* Game::autolobbybool2;
 unsigned __int8 Game::someinteger;
 
 void Game::UpdateValues() {
@@ -41,6 +39,18 @@ void Game::UpdateValues() {
 
     PlayerBarn = *(int*)(BaseGame + 480);
     spdlog::info("Game::PlayerBarn : {}", PlayerBarn);
+
+
+    Game::LocalDude::XPos = (float*)(Game::PlayerBarn + 0xC0);
+	Game::LocalDude::YPos = (float*)(Game::PlayerBarn + 0xC4);
+	Game::LocalDude::ZPos = (float*)(Game::PlayerBarn + 0xC8);
+
+	Game::LocalDude::XAccel = (float*)(Game::PlayerBarn + 0xD4);
+	Game::LocalDude::YAccel = (float*)(Game::PlayerBarn + 0xD8);
+	Game::LocalDude::ZAccel = (float*)(Game::PlayerBarn + 0xDC);
+
+	Game::LocalDude::ScarfCharge = (int*)(Game::PlayerBarn + 0x118);
+	Game::LocalDude::ScarfMax = (int*)(Game::PlayerBarn + 0x11C);
     //LocalDude = *(int*)(BaseGame + 480 + 176);
     //spdlog::info("Game::LocalDude : {}", LocalDude);
     //RemoteDude = *(int*)(BaseGame + 480);
@@ -99,5 +109,5 @@ void TickHook(__int64 mGame, float a2) {
 
 void Game::Initialize(HookEnabler hook){
     ENABLER_CREATEHOOK(
-            hook, (LPVOID) Global::Bases::GameTick, &TickHook, reinterpret_cast<LPVOID *>(&Game::Tick));
+            hook, (LPVOID) g_Offsets->GameTick, &TickHook, reinterpret_cast<LPVOID *>(&Game::Tick));
 }

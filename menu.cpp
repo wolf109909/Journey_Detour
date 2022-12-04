@@ -1,6 +1,4 @@
-//
-// Created by scrci on 2022/9/10.
-//
+
 
 #include "menu.h"
 #include <utility>

@@ -1,24 +1,21 @@
-//
-// Created by scrci on 2022/9/10.
-//
 
 #include "lua.h"
-
-Lua::_luaL_loadstring Lua::luaL_loadstring = (Lua::_luaL_loadstring) Global::Bases::LuaLoadString;
-Lua::_lua_pcall Lua::lua_pcall = (Lua::_lua_pcall) Global::Bases::LuaPCall;
-Lua::_luaL_loadfilex Lua::luaL_loadfilex = (Lua::_luaL_loadfilex) Global::Bases::LuaLoadFilex;
-Lua::lua_tostring_ Lua::lua_tostring = (Lua::lua_tostring_) Global::Bases::LuaToString;
-Lua::_lua_getglobal Lua::lua_getglobal = (Lua::_lua_getglobal) Global::Bases::LuaGetGlobal;
-Lua::_lua_pushvalue Lua::lua_pushvalue = (Lua::_lua_pushvalue) Global::Bases::LuaPushValue;
-Lua::_lua_callk Lua::lua_callk = (Lua::_lua_callk) Global::Bases::LuaCallK;
-Lua::_luaL_error Lua::luaL_error = (Lua::_luaL_error) Global::Bases::LuaLError;
-Lua::_lua_settop Lua::lua_settop = (Lua::_lua_settop) Global::Bases::LuaSetTop;
-Lua::_lua_close Lua::lua_close = (Lua::_lua_close) Global::Bases::LuaClose;
-Lua::_lua_pcallk Lua::lua_pcallk = (Lua::_lua_pcallk) Global::Bases::LuaPCallK;
-Lua::newThread Lua::lua_newthread = (Lua::newThread) Global::Bases::LuaNewThread;
+#include "offsets.h"
+Lua::_luaL_loadstring Lua::luaL_loadstring = (Lua::_luaL_loadstring) g_Offsets->LuaLoadString;
+Lua::_lua_pcall Lua::lua_pcall = (Lua::_lua_pcall) g_Offsets->LuaPCall;
+Lua::_luaL_loadfilex Lua::luaL_loadfilex = (Lua::_luaL_loadfilex) g_Offsets->LuaLoadFilex;
+Lua::lua_tostring_ Lua::lua_tostring = (Lua::lua_tostring_) g_Offsets->LuaToString;
+Lua::_lua_getglobal Lua::lua_getglobal = (Lua::_lua_getglobal) g_Offsets->LuaGetGlobal;
+Lua::_lua_pushvalue Lua::lua_pushvalue = (Lua::_lua_pushvalue) g_Offsets->LuaPushValue;
+Lua::_lua_callk Lua::lua_callk = (Lua::_lua_callk) g_Offsets->LuaCallK;
+Lua::_luaL_error Lua::luaL_error = (Lua::_luaL_error) g_Offsets->LuaLError;
+Lua::_lua_settop Lua::lua_settop = (Lua::_lua_settop) g_Offsets->LuaSetTop;
+Lua::_lua_close Lua::lua_close = (Lua::_lua_close) g_Offsets->LuaClose;
+Lua::_lua_pcallk Lua::lua_pcallk = (Lua::_lua_pcallk) g_Offsets->LuaPCallK;
+Lua::newThread Lua::lua_newthread = (Lua::newThread) g_Offsets->LuaNewThread;
 //uintptr_t Lua::luab_print_ptr = 0x140333040;
-Lua::_close_state Lua::close_state = (Lua::_close_state) Global::Bases::LuaCloseState;
-Lua::_lua_debugdostring Lua::lua_debugdostring = (Lua::_lua_debugdostring) Global::Bases::LuaDebugDoString;
+Lua::_close_state Lua::close_state = (Lua::_close_state) g_Offsets->LuaCloseState;
+Lua::_lua_debugdostring Lua::lua_debugdostring = (Lua::_lua_debugdostring) g_Offsets->LuaDebugDoString;
 
 std::vector<std::string> Lua::m_LuaExecuteBuffer;
 Lua::lua_State *Lua::lua_State_ptr = 0;
@@ -35,7 +32,7 @@ int GetTopHook(Lua::lua_State *L) {
         Lua::lua_State_ptr = (Lua::lua_State *) L;
         // std::cout << "[+] State Obtained: \t" << std::hex << lua_State_ptr << std::endl;
         spdlog::info("Successfully obtained state:{}", *Lua::lua_State_ptr);
-        if (MH_DisableHook((LPVOID) Global::Bases::GetTop) != MH_OK) {
+        if (MH_DisableHook((LPVOID) g_Offsets->GetTop) != MH_OK) {
             std::cout << "[+] Hook disabled" << std::endl;
         }
     }
@@ -114,9 +111,9 @@ void Lua::ExecuteBuffer() {
 
 void Lua::Initialize(HookEnabler hook) {
     ENABLER_CREATEHOOK(
-            hook, (LPVOID) Global::Bases::GetTop, &GetTopHook, reinterpret_cast<LPVOID *>(&Lua::GetTop));
+            hook, (LPVOID) g_Offsets->GetTop, &GetTopHook, reinterpret_cast<LPVOID *>(&Lua::GetTop));
     ENABLER_CREATEHOOK(
-            hook, (LPVOID) Global::Bases::DebugPrint, &DebugPrintHook, reinterpret_cast<LPVOID *>(&Lua::DebugPrint));
+            hook, (LPVOID) g_Offsets->DebugPrint, &DebugPrintHook, reinterpret_cast<LPVOID *>(&Lua::DebugPrint));
     ENABLER_CREATEHOOK(
-            hook, (LPVOID) Global::Bases::LuaB_print, &LuaB_printHook, reinterpret_cast<LPVOID *>(&Lua::LuaB_print));
+            hook, (LPVOID) g_Offsets->LuaB_print, &LuaB_printHook, reinterpret_cast<LPVOID *>(&Lua::LuaB_print));
 }
