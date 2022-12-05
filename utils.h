@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sharedlibrary.h"
+
 
 namespace Global {
 

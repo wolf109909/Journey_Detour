@@ -31,7 +31,7 @@ void Render::NetGuiHook(__int64 a1, __int64 a2, float a3) {
 
 void Render::Initialize(HookEnabler hook) {
     ENABLER_CREATEHOOK(
-            hook, (LPVOID) g_Offsets->AddText, &Render::AddTextHook, reinterpret_cast<LPVOID *>(&Render::AddText));
+            hook, (LPVOID) Offsets::AddText, &Render::AddTextHook, reinterpret_cast<LPVOID *>(&Render::AddText));
     ENABLER_CREATEHOOK(
-            hook, (LPVOID) g_Offsets->NetGui, &Render::NetGuiHook, reinterpret_cast<LPVOID *>(&Render::NetGui));
+            hook, (LPVOID) Offsets::NetGui, &Render::NetGuiHook, reinterpret_cast<LPVOID *>(&Render::NetGui));
 }

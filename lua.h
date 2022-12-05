@@ -1,7 +1,5 @@
 
 #pragma once
-
-
 #include "sharedlibrary.h"
 #include "hookutils.h"
 #include "console.h"

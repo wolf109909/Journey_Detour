@@ -1,7 +1,6 @@
 #pragma once
-
-//#include "sharedlibrary.h"
-#include "lua.h"
+#include "sharedlibrary.h"
+#include "hookutils.h"
 
 namespace Game {
     typedef void(__cdecl *_tick)(__int64 a1, float a2);
@@ -17,8 +16,8 @@ namespace Game {
 
 //    extern GetLevelUidType  *GetLevelUid;
     extern bool             locateGame;
-    extern bool             autolobbybool1;
-    extern bool             autolobbybool2;
+    extern bool*             autolobbybool1;
+    extern bool*            autolobbybool2;
     extern unsigned __int8  someinteger;
 
 
@@ -34,16 +33,16 @@ namespace Game {
 
     namespace LocalDude 
     {
-        extern float XPos;
-        extern float YPos;
-        extern float ZPos;
+        extern float* XPos;
+        extern float* YPos;
+        extern float* ZPos;
 
-        extern float XAccel;
-        extern float YAccel;
-        extern float ZAccel;
+        extern float* XAccel;
+        extern float* YAccel;
+        extern float* ZAccel;
 
-        extern int ScarfCharge;
-        extern int ScarfMax;
+        extern int* ScarfCharge;
+        extern int* ScarfMax;
     };
 };
 

@@ -1,7 +1,7 @@
 
+#include "lua.h"
 #include"offsets.h"
 #include "game.h"
-
 typedef int GetLevelUidType(Lua::lua_State *, char *LevelName);
 
 uintptr_t Game::BaseGame = 0;
@@ -20,13 +20,14 @@ int* Game::LocalDude::ScarfCharge = 0;
 int* Game::LocalDude::ScarfMax = 0;
 
 //uintptr_t Game::LocalDude = 0;
-GetLevelUidType *GetLevelUid = (GetLevelUidType *) g_Offsets->GetLevelUid;
+GetLevelUidType *GetLevelUid = (GetLevelUidType *) Offsets::GetLevelUid;
 uintptr_t Game::Render = 0;
 Game::_tick Game::Tick;
 
 
 bool* Game::autolobbybool1;
 bool* Game::autolobbybool2;
+
 unsigned __int8 Game::someinteger;
 
 void Game::UpdateValues() {
@@ -109,5 +110,5 @@ void TickHook(__int64 mGame, float a2) {
 
 void Game::Initialize(HookEnabler hook){
     ENABLER_CREATEHOOK(
-            hook, (LPVOID) g_Offsets->GameTick, &TickHook, reinterpret_cast<LPVOID *>(&Game::Tick));
+            hook, (LPVOID) Offsets::GameTick, &TickHook, reinterpret_cast<LPVOID *>(&Game::Tick));
 }

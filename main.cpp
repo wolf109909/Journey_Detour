@@ -51,8 +51,8 @@
 //Global::_gametick BaseGameTick = (Global::_gametick) Global::Bases::GameTick;
 //_addtext AddText = (_addtext)0x14026EAA0;
 
-Global::_getconsole GetConsole = (Global::_getconsole) g_Offsets->GetConsole;
-Global::_printluamem PrintLuaMem = (Global::_printluamem) g_Offsets->PrintLuaMem;
+Global::_getconsole GetConsole = (Global::_getconsole) Offsets::GetConsole;
+Global::_printluamem PrintLuaMem = (Global::_printluamem) Offsets::PrintLuaMem;
 
 
 //typedef LONG(NTAPI *NtSuspendProcess)(IN HANDLE ProcessHandle);
@@ -696,7 +696,7 @@ void ConsoleSetup()
 {
 
     AllocConsole();
-    SetConsoleTitle((LPCWSTR)"[+] Journey lua hook test");
+    SetConsoleTitle("[+] Journey lua hook test");
     freopen("CONOUT$", "w", stdout);
     freopen("CONOUT$", "w", stderr);
     // freopen("CONIN$", "r", stdin);

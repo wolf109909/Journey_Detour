@@ -137,6 +137,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(MSBuildProjectDirectory)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="menu.cpp" />
+    <ClCompile Include="offsets.cpp" />
     <ClCompile Include="render.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="vardisplay.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="hookutils.h" />
     <ClInclude Include="lua.h" />
     <ClInclude Include="menu.h" />
+    <ClInclude Include="offsets.h" />
     <ClInclude Include="render.h" />
     <ClInclude Include="sharedlibrary.h" />
     <ClInclude Include="utils.h" />
