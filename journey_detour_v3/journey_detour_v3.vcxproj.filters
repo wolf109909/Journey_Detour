@@ -1,0 +1,1392 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\include">
+      <UniqueIdentifier>{bf926025-6fc0-439e-94ca-bc9c7a82ce50}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\crypto\__DECC_INCLUDE_EPILOGUE.H">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\__DECC_INCLUDE_EPILOGUE.H">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\__DECC_INCLUDE_EPILOGUE.H">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\__DECC_INCLUDE_PROLOGUE.H">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\__DECC_INCLUDE_PROLOGUE.H">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\__DECC_INCLUDE_PROLOGUE.H">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\adl_serializer.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\aes.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\aes_platform.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\allocators.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\android_sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\ansicolor_sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\ansicolor_sink-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\cfg\argv.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\aria.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\asn1.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\asn1.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\asn1.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\asn1_dsa.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\asn1_mac.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\asn1err.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\asn1err.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\asn1t.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\async.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\async.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\async.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\async_logger.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\async_logger-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\asyncerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\asyncerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\backtracer.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\backtracer-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\base_sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\base_sink-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\basic_file_sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\basic_file_sink-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\meta\call_std\begin.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\internal\biginteger.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\fmt\bin_to_hex.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\input\binary_reader.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\output\binary_writer.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\bio.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\bio.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\bioerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\bioerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\blowfish.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\bn.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\bn.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\bn_conf.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\bn_dh.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\bn_srp.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\bnerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\bnerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\buffer.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\buffererr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\buffererr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\byte_container_with_subtype.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\camellia.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\cast.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\chacha.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\fmt\bundled\chrono.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\fmt\chrono.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\circular_q.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\cmac.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\cmll_platform.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\cmp.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\cmp_util.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\cmperr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\cmperr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\cms.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\cmserr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\cmserr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\fmt\bundled\color.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\common.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\common-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\comp.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\comp.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\comperr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\comperr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\fmt\bundled\compile.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\conf.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\conf.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\conf_api.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\conferr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\conferr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\configuration.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\conftypes.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\console_globals.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\constant_time.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\core.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\core.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\fmt\bundled\core.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\core_dispatch.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\core_names.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\core_object.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\meta\cpp_future.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\crmf.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\crmferr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\crmferr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\cryptlib.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\cryptlib.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\crypto.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\cryptoerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\cryptoerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\cryptoerr_legacy.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\ct.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\cterr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\cterr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\ctype.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\libcurl\include\curl\curl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\libcurl\include\curl\curlver.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\daily_file_sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\dane.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\decoder.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\decoder.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\decodererr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\decodererr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\deprecated.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\der.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\des.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\des_platform.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\meta\detected.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\dh.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\dh.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\dherr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\dherr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\dist_sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\internal\diyfp.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\document.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\dsa.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\dsa.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\dsaerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\dsaerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\dso.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\dso_conf.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\dsoerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\dtls1.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\internal\dtoa.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\dup_filter_sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\e_os2.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\libcurl\include\curl\easy.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\ebcdic.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\ec.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\ec.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\ecdh.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\ecdsa.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\ecerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\ecerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\ecx.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\error\en.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\encodedstream.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\encoder.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\encoder.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\encodererr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\encodererr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\encodings.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\meta\call_std\end.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\endian.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\engine.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\engine.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\engineerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\engineerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\cfg\env.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\err.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\err.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\err.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\error\error.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\ess.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\ess.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\esserr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\esserr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\evp.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\evp.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\evperr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\evperr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\exceptions.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\ffc.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\file_helper.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\file_helper-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\filereadstream.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\filewritestream.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\fips_names.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\fipskey.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\fmt\fmt.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\fmt_helper.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\fmt\bundled\format.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\fmt\bundled\format-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\formatter.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\conversions\from_json.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\fwd.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\fwd.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\hash.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\thirdparty\hedley\hedley.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\thirdparty\hedley\hedley_undef.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\cfg\helpers.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\cfg\helpers-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\hmac.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\hourly_file_sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\http.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\httperr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\httperr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\httplib.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\idea.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\meta\identity_tag.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\internal\ieee754.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\input\input_adapters.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\iterators\internal_iterator.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\msinttypes\inttypes.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\meta\is_sax.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\istreamwrapper.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\iterators\iter_impl.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\iterators\iteration_proxy.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\iterators\iterator_traits.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\internal\itoa.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\json.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\json_fwd.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\json_pointer.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\json_ref.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\iterators\json_reverse_iterator.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\input\json_sax.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\kdf.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\kdferr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\ktls.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\input\lexer.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\lhash.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\lhash.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\fmt\bundled\locale.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\log_msg.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\log_msg_buffer.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\log_msg_buffer-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\log_msg-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\logger.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\logger-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\macro_scope.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\macro_unscope.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\macros.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\md2.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\md4.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\md5.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\md32_common.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\mdc2.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="memory.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\memorybuffer.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\memorystream.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\internal\meta.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MinHook.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\modes.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\modes.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\mpmc_blocking_q.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\libcurl\include\curl\mprintf.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\msvc_sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\libcurl\include\curl\multi.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\namemap.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\nelem.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\null_mutex.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\null_sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\numbers.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\o_dir.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\obj_mac.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\objects.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\objects.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\objectserr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\objectserr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\ocsp.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\ocsperr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\ocsperr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\opensslconf.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\opensslv.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\libcurl\include\curl\options.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\ordered_map.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\os.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\fmt\bundled\os.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\os-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\ossl_typ.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\fmt\ostr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\fmt\bundled\ostream.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\ostream_sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\ostreamwrapper.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\output\output_adapters.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\packet.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\param_build.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\param_build_set.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\params.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\input\parser.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\passphrase.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\pattern_formatter.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\pattern_formatter-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\pem.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\pem.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\pem2.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\pemerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\pemerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\periodic_worker.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\periodic_worker-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\pkcs7.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\pkcs7.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\pkcs7err.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\pkcs7err.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\pkcs12.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\pkcs12err.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\pkcs12err.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\pointer.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\poly1305.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\input\position_t.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\fmt\bundled\posix.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\internal\pow10.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\ppc_arch.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\prettywriter.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\iterators\primitive_iterator.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\fmt\bundled\printf.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\property.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\propertyerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\prov_ssl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\proverr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\provider.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\provider.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\punycode.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\rand.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\rand.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\rand_pool.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\randerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\randerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\fmt\bundled\ranges.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\rapidjson.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\rc2.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\rc4.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\rc5.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\reader.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\refcount.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\internal\regex.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\registry.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\registry-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\ringbuffer_sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\ripemd.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\rotating_file_sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\rotating_file_sink-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\rsa.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\rsa.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\rsaerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\rsaerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\safestack.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\schema.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\security_bits.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\seed.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\self_test.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\output\serializer.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\sha.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\sha.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\sha3.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\sink-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\siphash.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\siv.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\sizes.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\sm2.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\sm2err.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\sm3.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\sm4.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\sockets.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\sparc_arch.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\sparse_array.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\spdlog.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\spdlog-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\srp.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\srtp.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\ssl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\ssl2.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\ssl3.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\sslconf.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\sslerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\sslerr_legacy.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\stack.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\internal\stack.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\libcurl\include\curl\stdcheaders.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\msinttypes\stdint.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\stdout_color_sinks.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\stdout_color_sinks-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\stdout_sinks.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\stdout_sinks-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\stopwatch.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\store.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\store.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\storeerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\storeerr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\stream.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\internal\strfunc.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\string_escape.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\stringbuffer.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\internal\strtod.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\internal\swap.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\symhacks.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\symhacks.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\synchronous_factory.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\syslog_sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\libcurl\include\curl\system.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\systemd_sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\tcp_client.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\tcp_client-windows.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\tcp_sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\thread_once.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\thread_pool.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\thread_pool-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\tls1.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\tlsgroups.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\conversions\to_chars.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\conversions\to_json.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\trace.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\ts.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\tsan_assist.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\tserr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\tserr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\tweakme.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\txt_db.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\meta\type_traits.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\libcurl\include\curl\typecheck-gcc.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\types.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\types.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\ui.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\uierr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\uierr.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\internal\unicode.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\libcurl\include\curl\urlapi.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\value_t.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\version.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\detail\meta\void_t.hpp">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\whrlpool.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\win_eventlog_sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\wincolor_sink.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\sinks\wincolor_sink-inl.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\details\windows_include.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidjson\writer.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\x509.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\x509.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\x509_vfy.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\x509err.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\x509err.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\x509v3.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\x509v3err.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\openssl\x509v3err.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zstd.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="lua.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="structs.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="render.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="menu.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="memory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="lua.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="render.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="menu.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
