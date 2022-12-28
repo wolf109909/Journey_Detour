@@ -1,4 +1,14 @@
-#include "pch.h"
+#include "framework.h"
+#include <windows.h>
+#include <psapi.h>
+#include <set>
+#include <map>
+#include <filesystem>
+#include <sstream>
+#include "spdlog/spdlog.h"
+#include "MinHook.h"
+#include "hooks.h"
+#include "memory.h"
 #include <utility>
 #include "lua.h"
 #include "game.h"

@@ -1,4 +1,14 @@
-#include "pch.h"
+#include "framework.h"
+#include <windows.h>
+#include <psapi.h>
+#include <set>
+#include <map>
+#include <filesystem>
+#include <sstream>
+#include "spdlog/spdlog.h"
+#include "MinHook.h"
+#include "hooks.h"
+#include "memory.h"
 //const char* IMAGE_NAME = "journey.exe.unpacked.exe";
 
 

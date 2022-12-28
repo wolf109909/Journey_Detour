@@ -1,4 +1,13 @@
-#include "pch.h"
+#include "framework.h"
+#include <windows.h>
+#include <psapi.h>
+#include <set>
+#include <map>
+#include <filesystem>
+#include <sstream>
+#include "spdlog/spdlog.h"
+#include "MinHook.h"
+#include "hooks.h"
 #include "memory.h"
 
 MemoryAddress::MemoryAddress() : m_nAddress(0) {}
