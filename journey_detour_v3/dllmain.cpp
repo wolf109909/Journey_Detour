@@ -22,7 +22,6 @@
 #include "render.h"
 #include "menu.h"
 #include "includes.h"
-
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 Present oPresent;
@@ -36,6 +35,7 @@ void InitImGui()
 {
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
+    io.Fonts->AddFontFromFileTTF("c:/windows/fonts/simhei.ttf", 13.0f, nullptr, io.Fonts->GetGlyphRangesChineseFull());
     io.ConfigFlags = ImGuiConfigFlags_NoMouseCursorChange;
     ImGui_ImplWin32_Init(window);
     ImGui_ImplDX11_Init(pDevice, pContext);
@@ -75,9 +75,13 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
 
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
-    ImGui::NewFrame();
+    //ImGui::ShowDemoWindow();
+    
 
-    ImGui::Begin("ImGui Window");
+
+    ImGui::NewFrame();
+    ImGui::Begin("FUCK");
+    ImGui::Text(u8"中文测试");
     ImGui::End();
 
     ImGui::Render();
