@@ -12,7 +12,7 @@
 #include "game.h"
 #include "hooks.h"
 #include "lua.h"
-#include <format>
+
 GameManager* g_pGame;
 
 AUTOHOOK_INIT()

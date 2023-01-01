@@ -75,13 +75,25 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
 
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
-    //ImGui::ShowDemoWindow();
+    
     
 
 
     ImGui::NewFrame();
+    //ImGui::ShowDemoWindow();
     ImGui::Begin("FUCK");
     ImGui::Text(u8"中文测试");
+    if (g_pGame->m_LocalDude != nullptr)
+    {
+        ImGui::Text(std::to_string(g_pGame->m_LocalDude->XPos).c_str());
+        ImGui::Text(std::to_string(g_pGame->m_LocalDude->YPos).c_str());
+        ImGui::Text(std::to_string(g_pGame->m_LocalDude->ZPos).c_str());
+        ImGui::Text(std::to_string(g_pGame->m_LocalDude->XAccel).c_str());
+        ImGui::Text(std::to_string(g_pGame->m_LocalDude->YAccel).c_str());
+        ImGui::Text(std::to_string(g_pGame->m_LocalDude->ZAccel).c_str());
+        ImGui::Text(std::to_string(g_pGame->m_LocalDude->ScarfMax).c_str());
+        ImGui::Text(std::to_string(g_pGame->m_LocalDude->ScarfCharge).c_str());
+    }
     ImGui::End();
 
     ImGui::Render();
