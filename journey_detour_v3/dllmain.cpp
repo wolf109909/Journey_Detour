@@ -50,6 +50,8 @@ LRESULT __stdcall WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 }
 
 bool init = false;
+
+
 HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
 {
     if (!init)
@@ -81,18 +83,20 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
 
     ImGui::NewFrame();
     //ImGui::ShowDemoWindow();
-    ImGui::Begin("FUCK");
-    ImGui::Text(u8"中文测试");
     if (g_pGame->m_LocalDude != nullptr)
     {
-        ImGui::Text(std::to_string(g_pGame->m_LocalDude->XPos).c_str());
+        ImGui::Text(fmt::format("RemoteDude Name: {}", g_pGame->GetPartnerName()).c_str());
+
+        ImGui::Checkbox("InfiniteScarf", &g_pGame->b_InfiniteScarf);
+
+        /*ImGui::Text(std::to_string(g_pGame->m_LocalDude->XPos).c_str());
         ImGui::Text(std::to_string(g_pGame->m_LocalDude->YPos).c_str());
         ImGui::Text(std::to_string(g_pGame->m_LocalDude->ZPos).c_str());
         ImGui::Text(std::to_string(g_pGame->m_LocalDude->XAccel).c_str());
         ImGui::Text(std::to_string(g_pGame->m_LocalDude->YAccel).c_str());
         ImGui::Text(std::to_string(g_pGame->m_LocalDude->ZAccel).c_str());
         ImGui::Text(std::to_string(g_pGame->m_LocalDude->ScarfMax).c_str());
-        ImGui::Text(std::to_string(g_pGame->m_LocalDude->ScarfCharge).c_str());
+        ImGui::Text(std::to_string(g_pGame->m_LocalDude->ScarfCharge).c_str());*/
     }
     ImGui::End();
 
@@ -306,6 +310,13 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter) {
                 m_bDebugLoopEnabled = !m_bDebugLoopEnabled;
                 m_bCommandFound = true;
             }
+            if (command == "tptest") {
+                g_pGame->m_LocalDude->XPos = 360;
+                g_pGame->m_LocalDude->YPos = 630;
+                g_pGame->m_LocalDude->ZPos = 940;
+                m_bCommandFound = true;
+            }
+
 
             if (!m_bCommandFound) {
                 std::cout << "[-] Command not found!" << std::endl;

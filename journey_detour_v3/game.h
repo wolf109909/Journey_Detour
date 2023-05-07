@@ -11,7 +11,7 @@ OFFSET_STRUCT(Game)
 {
 	STRUCT_SIZE(0x1C0381)
 		FIELD(0xC0, uintptr_t Render)
-		FIELD(0x180, uintptr_t Matchmaker)
+		FIELD(0x180, uintptr_t Network)
 		FIELD(0x1E0, uintptr_t PlayerBarn)
 };
 
@@ -53,10 +53,17 @@ public:
 	bool b_Initialized = false;
 	bool b_IsNetGUIEnabled = false;
 	bool b_IsConsoleRedirectEnabled = false;
+	
+	// cheats
+	bool b_InfiniteScarf = false;
+
+
 	Game* m_Game;
 	LocalDude* m_LocalDude;
 	// Initialize hooks
 	void Initialize();
 	void AddRenderCallback(RenderCallback* callback);
+	void ToggleInfiniteScarf();
+	char* GetPartnerName();
 };
 extern GameManager* g_pGame;

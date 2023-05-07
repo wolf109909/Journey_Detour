@@ -6,17 +6,16 @@
 #include <filesystem>
 #include <sstream>
 #include "spdlog/spdlog.h"
-#include "MinHook.h"
 #include "hooks.h"
-#include "memory.h"
 #include "game.h"
-#include "hooks.h"
 #include "lua.h"
-
-GameManager* g_pGame;
 
 AUTOHOOK_INIT()
 
+GameManager* g_pGame;
+
+typedef char*(__cdecl* _game_GetPartnerName)(uintptr_t network);
+_game_GetPartnerName game_GetPartnerName = MemoryAddress(0x140100400).As<_game_GetPartnerName>();
 AUTOHOOK_ABSOLUTEADDR(Debug_print, (LPVOID)0x1402E3090,
 	const char*, __fastcall, (const char* fmt, ...))
 {
@@ -39,6 +38,8 @@ AUTOHOOK_ABSOLUTEADDR(netgui_render, (LPVOID)0x14010DA00,
 	// Custom content rendering
 	if (g_pGame->m_LocalDude != NULL) 
 	{
+		if (g_pGame->b_InfiniteScarf)
+			g_pGame->m_LocalDude->ScarfCharge = g_pGame->m_LocalDude->ScarfMax;
 		//g_pGame->m_LocalDude->XAccel = 1.0;
 		//g_pGame->r_AddText(g_pGame->m_Game->Render, std::format("X:{} Y:{} Z:{}", floor(g_pGame->m_LocalDude->XPos * 10 + .5) / 10, floor(g_pGame->m_LocalDude->YPos * 10 + .5) / 10, floor(g_pGame->m_LocalDude->ZPos * 10 + .5) / 10).c_str(), -1.75, -1.0, 0.05, 0xFFFFFFFF);
 		//dude codes here maybe
@@ -49,7 +50,7 @@ AUTOHOOK_ABSOLUTEADDR(netgui_render, (LPVOID)0x14010DA00,
 			callback->Execute();
 		}
 	}
-	g_pGame->r_AddText(g_pGame->m_Game->Render, "Journey Detour v1.0.1", -1.75, -1.0, 0.05, 0xFFFFFFFF);
+	g_pGame->r_AddText(g_pGame->m_Game->Render, "Journey Detour v3.0.1", -1.75, -1.0, 0.05, 0xFFFFFFFF);
 	return netgui_render(a1, a2, a3);
 }
 
@@ -89,6 +90,16 @@ void GameManager::Initialize()
 void GameManager::AddRenderCallback(RenderCallback* callback)
 {
 	g_pGame->m_vRenderCallbacks.push_back(callback);
+}
+
+void GameManager::ToggleInfiniteScarf()
+{
+	this->b_InfiniteScarf = !this->b_InfiniteScarf;
+}
+
+char* GameManager::GetPartnerName()
+{
+	return game_GetPartnerName(this->m_Game->Network);
 }
 
 RenderCallback::RenderCallback(std::string name, RenderContext context)

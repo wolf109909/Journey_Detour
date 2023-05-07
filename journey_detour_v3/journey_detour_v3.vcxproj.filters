@@ -618,9 +618,6 @@
     <ClInclude Include="include\openssl\hmac.h">
       <Filter>header files\include</Filter>
     </ClInclude>
-    <ClInclude Include="hooks.h">
-      <Filter>header files\include</Filter>
-    </ClInclude>
     <ClInclude Include="include\spdlog\sinks\hourly_file_sink.h">
       <Filter>header files\include</Filter>
     </ClInclude>
@@ -1393,6 +1390,9 @@
       <Filter>kiero</Filter>
     </ClInclude>
     <ClInclude Include="includes.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks.h">
       <Filter>header files</Filter>
     </ClInclude>
   </ItemGroup>

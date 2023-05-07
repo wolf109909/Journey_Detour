@@ -134,7 +134,7 @@ void Menu::Actions::ToggleMusic() {
 }
 
 Menu::Item::Item(std::string name, Menu::Action function) {
-    this->ItemName = std::move(name);
+    this->ItemName = name;
     this->function = function;
 }
 

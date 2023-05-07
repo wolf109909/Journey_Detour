@@ -2,7 +2,7 @@
 #include "memory.h"
 #include <string>
 #include <iostream>
-
+#include "minhook.h"
 void InstallInitialHooks();
 
 
