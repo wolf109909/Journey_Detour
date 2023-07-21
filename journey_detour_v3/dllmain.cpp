@@ -187,7 +187,7 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter) {
             else {
                 command = input;
             }
-
+            // add this pcall(function() dofile("decotest.lua") end)
             if (command == "script") {
                 try {
                     input = input.substr(7);
@@ -249,6 +249,9 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter) {
 
             if (command == "test") {
                 std::cout << "Test function called!" << std::endl;
+                g_pGame->m_LocalDude->XPos = 0.0f;
+                g_pGame->m_LocalDude->YPos = 0.0f;
+                g_pGame->m_LocalDude->ZPos = 0.0f;
 
                 input.clear();
                 m_bCommandFound = true;

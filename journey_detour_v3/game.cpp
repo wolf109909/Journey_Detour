@@ -9,13 +9,24 @@
 #include "hooks.h"
 #include "game.h"
 #include "lua.h"
-
+#include <stdint.h>
 AUTOHOOK_INIT()
+
+
 
 GameManager* g_pGame;
 
 typedef char*(__cdecl* _game_GetPartnerName)(uintptr_t network);
 _game_GetPartnerName game_GetPartnerName = MemoryAddress(0x140100400).As<_game_GetPartnerName>();
+
+
+AUTOHOOK_ABSOLUTEADDR(AddDecoration, (LPVOID)0x14009F9D0,
+	uintptr_t, __fastcall, (uintptr_t NOTdecoBarn, __int64 resources, char* name1, char* name2, vec_mat* a5))
+{	
+	spdlog::info("ptr:{},size:{}", g_pGame->m_Game->DecorationBarn, *(unsigned int*)(g_pGame->m_Game->DecorationBarn + 4407312));
+	return AddDecoration(g_pGame->m_Game->DecorationBarn, resources, name1, name2, a5);
+}
+
 AUTOHOOK_ABSOLUTEADDR(Debug_print, (LPVOID)0x1402E3090,
 	const char*, __fastcall, (const char* fmt, ...))
 {
@@ -69,6 +80,7 @@ AUTOHOOK_ABSOLUTEADDR(game_update, (LPVOID)0x1400DAD40,
 		spdlog::info("[GameManager] Successfully initialized rendering");
 		g_pGame->g_GetConsole = MemoryAddress(0x140316DC0).As<_getconsole>();
 		g_pGame->g_PrintLuaMem = MemoryAddress(0x1400F0B90).As<_printluamem>();
+		g_pGame->g_AddDecoration = MemoryAddress(0x14009F9D0).As<_adddeco>();
 		spdlog::info("[GameManager] Successfully detoured native functions");
 		g_pGame->b_Initialized = true;
 	}
