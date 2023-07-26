@@ -22,16 +22,22 @@ namespace RenderTest
 	void RenderTest()
 	{
 		i = 0;
+		g_pGame->r_AddText(g_pGame->m_Game->Render, "Dude Position:", offset_x, offset_y - font_size * i, font_size, color); i++;
 		g_pGame->r_AddText(g_pGame->m_Game->Render, std::to_string(g_pGame->m_LocalDude->XPos).c_str(), offset_x, offset_y - font_size * i, font_size, color); i++;
 		g_pGame->r_AddText(g_pGame->m_Game->Render, std::to_string(g_pGame->m_LocalDude->YPos).c_str(), offset_x, offset_y - font_size * i, font_size, color); i++;
 		g_pGame->r_AddText(g_pGame->m_Game->Render, std::to_string(g_pGame->m_LocalDude->ZPos).c_str(), offset_x, offset_y - font_size * i, font_size, color); i++;
 		i++;
+		g_pGame->r_AddText(g_pGame->m_Game->Render, "Dude Acceleration:", offset_x, offset_y - font_size * i, font_size, color); i++;
 		g_pGame->r_AddText(g_pGame->m_Game->Render, std::to_string(g_pGame->m_LocalDude->XAccel).c_str(), offset_x, offset_y - font_size * i, font_size, color); i++;
 		g_pGame->r_AddText(g_pGame->m_Game->Render, std::to_string(g_pGame->m_LocalDude->YAccel).c_str(), offset_x, offset_y - font_size * i, font_size, color); i++;
 		g_pGame->r_AddText(g_pGame->m_Game->Render, std::to_string(g_pGame->m_LocalDude->ZAccel).c_str(), offset_x, offset_y - font_size * i, font_size, color); i++;
 		i++;
+		g_pGame->r_AddText(g_pGame->m_Game->Render, "Dude Scarf:", offset_x, offset_y - font_size * i, font_size, color); i++;
 		g_pGame->r_AddText(g_pGame->m_Game->Render, std::to_string(g_pGame->m_LocalDude->ScarfCharge).c_str(), offset_x, offset_y - font_size * i, font_size, color); i++;
 		g_pGame->r_AddText(g_pGame->m_Game->Render, std::to_string(g_pGame->m_LocalDude->ScarfMax).c_str(), offset_x, offset_y - font_size * i, font_size, color); i++;
+		i++;
+		g_pGame->r_AddText(g_pGame->m_Game->Render, "Decoration Count:", offset_x, offset_y - font_size * i, font_size, color); i++;
+		g_pGame->r_AddText(g_pGame->m_Game->Render, std::to_string(*(unsigned int*)(g_pGame->m_Game->DecorationBarn + 4407312)).c_str(), offset_x, offset_y - font_size * i, font_size, color); i++;
 	}
 	void Initialize()
 	{

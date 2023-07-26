@@ -19,11 +19,17 @@ GameManager* g_pGame;
 typedef char*(__cdecl* _game_GetPartnerName)(uintptr_t network);
 _game_GetPartnerName game_GetPartnerName = MemoryAddress(0x140100400).As<_game_GetPartnerName>();
 
+AUTOHOOK_ABSOLUTEADDR(Decoration, (LPVOID)0x14009D1E0,
+	uintptr_t, __fastcall, (uintptr_t deco, __int64 resources, char* name1, char* name2, vec_mat* a5))
+{
+	spdlog::info("<NewDecoration> ptr:{},mesh:{},shader:{}", deco, name1, name2);
+	return Decoration(deco, resources, name1, name2, a5);
+}
 
 AUTOHOOK_ABSOLUTEADDR(AddDecoration, (LPVOID)0x14009F9D0,
 	uintptr_t, __fastcall, (uintptr_t NOTdecoBarn, __int64 resources, char* name1, char* name2, vec_mat* a5))
 {	
-	spdlog::info("ptr:{},size:{}", g_pGame->m_Game->DecorationBarn, *(unsigned int*)(g_pGame->m_Game->DecorationBarn + 4407312));
+	//spdlog::info("ptr:{},size:{},mesh:{},shader:{}", g_pGame->m_Game->DecorationBarn + ( *(unsigned int*)(g_pGame->m_Game->DecorationBarn + 4407312) * 4304 ), *(unsigned int*)(g_pGame->m_Game->DecorationBarn + 4407312),name1,name2);
 	return AddDecoration(g_pGame->m_Game->DecorationBarn, resources, name1, name2, a5);
 }
 

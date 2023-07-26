@@ -3,6 +3,7 @@
 #include <psapi.h>
 #include <set>
 #include <map>
+#include <fstream>
 #include <filesystem>
 #include <sstream>
 #include "spdlog/spdlog.h"
@@ -144,6 +145,7 @@ void PrintLuaMem() {
 }
 
 
+
 DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter) {
 
     FILE* fp = nullptr;
@@ -246,7 +248,21 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter) {
 
                 m_bCommandFound = true;
             }
+            
+            if (command == "dumplevel") {
+                std::cout << "Dumping level!" << std::endl;
+                const size_t size = 4407316;
+                std::string filename = "testlevel.bin";
+                {
+                    std::ofstream ostrm(filename, std::ios::binary);
+                    ostrm.write(reinterpret_cast<char*>(g_pGame->m_Game->DecorationBarn), size); // binary output
+                    std::cout << "Dumping Complete." << std::endl;
+                }
+                
 
+                input.clear();
+                m_bCommandFound = true;
+            }
             if (command == "test") {
                 std::cout << "Test function called!" << std::endl;
                 g_pGame->m_LocalDude->XPos = 0.0f;
