@@ -14,27 +14,54 @@ typedef __int64(__cdecl* _getconsole)(char*);
 typedef __int64(__cdecl* _printluamem)(__int64);
 typedef void(__cdecl* _adddeco)(int a1, int a2, char* a3, int a4, vec_mat* a5);
 
-OFFSET_STRUCT(Game)
+
+
+
+union Game
 {
-	STRUCT_SIZE(0x1C0381)
-		FIELD(0x28,uintptr_t ResourceManager)
-		FIELD(0xC0, uintptr_t Render)
-		FIELD(0x138,uintptr_t DecorationBarn)
-		FIELD(0x180, uintptr_t Network)
-		FIELD(0x1E0, uintptr_t PlayerBarn)
+	struct {
+		char pad31[0x28]; uintptr_t ResourceManager;
+	};
+	struct {
+		char pad34[0xC0]; uintptr_t Render;
+	};
+	struct {
+		char pad37[0x138]; uintptr_t DecorationBarn;
+	};
+	struct {
+		char pad40[0x180]; uintptr_t Network;
+	};
+	struct {
+		char pad43[0x1E0]; uintptr_t PlayerBarn;
+	};
 };
 
-OFFSET_STRUCT(LocalDude) 
+union LocalDude
 {
-	STRUCT_SIZE(0x1C01A1)
-		FIELD(0xC0, float XPos)
-		FIELD(0xC4, float YPos)
-		FIELD(0xC8, float ZPos)
-		FIELD(0xD4, float XAccel)
-		FIELD(0xD8, float YAccel)
-		FIELD(0xDC, float ZAccel)
-		FIELD(0x118, int ScarfCharge)
-		FIELD(0x11C, int ScarfMax)
+	struct {
+		char pad41[0xC0]; float XPos;
+	};
+	struct {
+		char pad44[0xC4]; float YPos;
+	};
+	struct {
+		char pad47[0xC8]; float ZPos;
+	};
+	struct {
+		char pad50[0xD4]; float XAccel;
+	};
+	struct {
+		char pad53[0xD8]; float YAccel;
+	};
+	struct {
+		char pad56[0xDC]; float ZAccel;
+	};
+	struct {
+		char pad59[0x118]; int ScarfCharge;
+	};
+	struct {
+		char pad62[0x11C]; int ScarfMax;
+	};
 };
 
 

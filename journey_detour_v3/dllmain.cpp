@@ -23,105 +23,7 @@
 #include "render.h"
 #include "menu.h"
 #include "includes.h"
-extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-Present oPresent;
-HWND window = NULL;
-WNDPROC oWndProc;
-ID3D11Device* pDevice = NULL;
-ID3D11DeviceContext* pContext = NULL;
-ID3D11RenderTargetView* mainRenderTargetView;
-
-void InitImGui()
-{
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
-    io.Fonts->AddFontFromFileTTF("c:/windows/fonts/simhei.ttf", 13.0f, nullptr, io.Fonts->GetGlyphRangesChineseFull());
-    io.ConfigFlags = ImGuiConfigFlags_NoMouseCursorChange;
-    ImGui_ImplWin32_Init(window);
-    ImGui_ImplDX11_Init(pDevice, pContext);
-}
-
-LRESULT __stdcall WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-
-    if (true && ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam))
-        return true;
-
-    return CallWindowProc(oWndProc, hWnd, uMsg, wParam, lParam);
-}
-
-bool init = false;
-
-
-HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
-{
-    if (!init)
-    {
-        if (SUCCEEDED(pSwapChain->GetDevice(__uuidof(ID3D11Device), (void**)&pDevice)))
-        {
-            pDevice->GetImmediateContext(&pContext);
-            DXGI_SWAP_CHAIN_DESC sd;
-            pSwapChain->GetDesc(&sd);
-            window = sd.OutputWindow;
-            ID3D11Texture2D* pBackBuffer;
-            pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
-            pDevice->CreateRenderTargetView(pBackBuffer, NULL, &mainRenderTargetView);
-            pBackBuffer->Release();
-            oWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
-            InitImGui();
-            init = true;
-        }
-
-        else
-            return oPresent(pSwapChain, SyncInterval, Flags);
-    }
-
-    ImGui_ImplDX11_NewFrame();
-    ImGui_ImplWin32_NewFrame();
-    
-    
-
-
-    ImGui::NewFrame();
-    //ImGui::ShowDemoWindow();
-    if (g_pGame->m_LocalDude != nullptr)
-    {
-        ImGui::Text(fmt::format("RemoteDude Name: {}", g_pGame->GetPartnerName()).c_str());
-
-        ImGui::Checkbox("InfiniteScarf", &g_pGame->b_InfiniteScarf);
-
-        /*ImGui::Text(std::to_string(g_pGame->m_LocalDude->XPos).c_str());
-        ImGui::Text(std::to_string(g_pGame->m_LocalDude->YPos).c_str());
-        ImGui::Text(std::to_string(g_pGame->m_LocalDude->ZPos).c_str());
-        ImGui::Text(std::to_string(g_pGame->m_LocalDude->XAccel).c_str());
-        ImGui::Text(std::to_string(g_pGame->m_LocalDude->YAccel).c_str());
-        ImGui::Text(std::to_string(g_pGame->m_LocalDude->ZAccel).c_str());
-        ImGui::Text(std::to_string(g_pGame->m_LocalDude->ScarfMax).c_str());
-        ImGui::Text(std::to_string(g_pGame->m_LocalDude->ScarfCharge).c_str());*/
-    }
-    ImGui::End();
-
-    ImGui::Render();
-
-    pContext->OMSetRenderTargets(1, &mainRenderTargetView, NULL);
-    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-    return oPresent(pSwapChain, SyncInterval, Flags);
-}
-
-bool Init_Kiero() 
-{
-    bool init_hook = false;
-    do
-    {
-        if (kiero::init(kiero::RenderType::D3D11) == kiero::Status::Success)
-        {
-            kiero::bind(8, (void**)&oPresent, hkPresent);
-            init_hook = true;
-        }
-    } while (!init_hook);
-    return true;
-}
-
+#include "igig/igig.h"
 
 bool m_bCommandFound = false;
 HANDLE consoleInputThreadHandle = NULL;
@@ -151,33 +53,11 @@ DWORD WINAPI ConsoleInputThread(PVOID pThreadParameter) {
     FILE* fp = nullptr;
     freopen_s(&fp, "CONIN$", "r", stdin);
     using namespace std::chrono_literals;
-    std::this_thread::sleep_for(2000ms);
-    std::cout << R"(
----------------------------------------------------------------------------
-       __                                  ____       __
-      / ____  __  ___________  ___  __  __/ __ \___  / /_____  __  _______
- __  / / __ \/ / / / ___/ __ \/ _ \/ / / / / / / _ \/ __/ __ \/ / / / ___/
-/ /_/ / /_/ / /_/ / /  / / / /  __/ /_/ / /_/ /  __/ /_/ /_/ / /_/ / /
-\____/\____/\__,_/_/  /_/ /_/\___/\__, /_____/\___/\__/\____/\__,_/_/
-                                 /____/
-
-              https://github.com/wolf109909/Journey_Detour
---------------------------------------------------------------------------
-)" << std::endl;
-
-    std::cout << "     +===========================HELP============================+" << std::endl;
-    std::cout << "     | meminfo(F3)     : Toggle memory info prints.              |" << std::endl;
-    std::cout << "     | debug(F1)       : Run remove debugger function.           |" << std::endl;
-    std::cout << "     | debug <filename>: Debug target lua file.                  |" << std::endl;
-    std::cout << "     | debughud(F8)    : Cycle through DebugHud.                 |" << std::endl;
-    std::cout << "     | script <luacode>: Force Execute lua code to VM.(May crash)|" << std::endl;
-    std::cout << "     | console(F7)     : Toggle console redirect                 |" << std::endl;
-    std::cout << "     | help            : Print this screen again                 |" << std::endl;
-    std::cout << "     | clear           : Clear the console                       |" << std::endl;
-    std::cout << "     +===========================================================+" << std::endl;
-    std::cout << "\n\n[*] Ready to receive console commands." << std::endl;
-
+    std::this_thread::sleep_for(500ms);
+    
     {
+
+
         // Process console input
         std::string input;
         while (std::getline(std::cin, input)) {
@@ -373,9 +253,34 @@ void ConsoleSetup()
     spdlog::info("Console Initialized.");
     // std::cout << baseAddress << std::endl;
     // std::cout << newthreadptr << std::endl;
+    std::cout << R"(
+---------------------------------------------------------------------------
+       __                                  ____       __
+      / ____  __  ___________  ___  __  __/ __ \___  / /_____  __  _______
+ __  / / __ \/ / / / ___/ __ \/ _ \/ / / / / / / _ \/ __/ __ \/ / / / ___/
+/ /_/ / /_/ / /_/ / /  / / / /  __/ /_/ / /_/ /  __/ /_/ /_/ / /_/ / /
+\____/\____/\__,_/_/  /_/ /_/\___/\__, /_____/\___/\__/\____/\__,_/_/
+                                 /____/
+
+              https://github.com/wolf109909/Journey_Detour
+--------------------------------------------------------------------------
+)" << std::endl;
+
+    std::cout << "     +===========================HELP============================+" << std::endl;
+    std::cout << "     | meminfo(F3)     : Toggle memory info prints.              |" << std::endl;
+    std::cout << "     | debug(F1)       : Run remove debugger function.           |" << std::endl;
+    std::cout << "     | debug <filename>: Debug target lua file.                  |" << std::endl;
+    std::cout << "     | debughud(F8)    : Cycle through DebugHud.                 |" << std::endl;
+    std::cout << "     | script <luacode>: Force Execute lua code to VM.(May crash)|" << std::endl;
+    std::cout << "     | console(F7)     : Toggle console redirect                 |" << std::endl;
+    std::cout << "     | help            : Print this screen again                 |" << std::endl;
+    std::cout << "     | clear           : Clear the console                       |" << std::endl;
+    std::cout << "     +===========================================================+" << std::endl;
+    std::cout << "\n\n[*] Ready to receive console commands." << std::endl;
+
 }
 int WINAPI main() {
-    Init_Kiero();
+    ImGuiManager::instance().startInitThread();
     ConsoleSetup();
     InstallInitialHooks();
     g_pLua->Initialize();

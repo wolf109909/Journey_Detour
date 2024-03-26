@@ -34,6 +34,7 @@ void LuaManager::Initialize()
 {
     spdlog::info("[LuaManager] Initializing...");
     g_pLua = new LuaManager;
+    g_pLua->luaL_loadbufferx = MemoryAddress(0x14031E210).As<_luaL_loadbufferx>();
     g_pLua->luaL_loadstring = MemoryAddress(0x14031E250).As<_luaL_loadstring>();
     g_pLua->lua_pcall = MemoryAddress(0x1403278C0).As<_lua_pcall>();
     g_pLua->luaL_loadfilex = MemoryAddress(0x14031DEA0).As<_luaL_loadfilex>();

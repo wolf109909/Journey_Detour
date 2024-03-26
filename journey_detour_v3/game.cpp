@@ -10,6 +10,8 @@
 #include "game.h"
 #include "lua.h"
 #include <stdint.h>
+#include <iostream>
+#include <fstream>
 AUTOHOOK_INIT()
 
 
@@ -18,11 +20,10 @@ GameManager* g_pGame;
 
 typedef char*(__cdecl* _game_GetPartnerName)(uintptr_t network);
 _game_GetPartnerName game_GetPartnerName = MemoryAddress(0x140100400).As<_game_GetPartnerName>();
-
 AUTOHOOK_ABSOLUTEADDR(Decoration, (LPVOID)0x14009D1E0,
 	uintptr_t, __fastcall, (uintptr_t deco, __int64 resources, char* name1, char* name2, vec_mat* a5))
 {
-	spdlog::info("<NewDecoration> ptr:{},mesh:{},shader:{}", deco, name1, name2);
+	//spdlog::info("<NewDecoration> ptr:{},mesh:{},shader:{}", deco, name1, name2);
 	return Decoration(deco, resources, name1, name2, a5);
 }
 
@@ -33,19 +34,19 @@ AUTOHOOK_ABSOLUTEADDR(AddDecoration, (LPVOID)0x14009F9D0,
 	return AddDecoration(g_pGame->m_Game->DecorationBarn, resources, name1, name2, a5);
 }
 
-AUTOHOOK_ABSOLUTEADDR(Debug_print, (LPVOID)0x1402E3090,
-	const char*, __fastcall, (const char* fmt, ...))
-{
-	if (!g_pGame->b_IsConsoleRedirectEnabled)
-		return fmt;
-	va_list args;
-	char buffer[16384];
-	va_start(args, fmt);
-	vsprintf(buffer, fmt, args);
-	va_end(args);
-	spdlog::info(buffer);
-	return fmt;
-}
+//AUTOHOOK_ABSOLUTEADDR(Debug_print, (LPVOID)0x1402E3090,
+//	const char*, __fastcall, (const char* fmt, ...))
+//{
+//	if (!g_pGame->b_IsConsoleRedirectEnabled)
+//		return fmt;
+//	va_list args;
+//	char buffer[16384];
+//	va_start(args, fmt);
+//	vsprintf(buffer, fmt, args);
+//	va_end(args);
+//	spdlog::info(buffer);
+//	return fmt;
+//}
 
 AUTOHOOK_ABSOLUTEADDR(netgui_render, (LPVOID)0x14010DA00,
 	void, __fastcall, (__int64 a1, __int64 a2, float a3))
@@ -71,6 +72,41 @@ AUTOHOOK_ABSOLUTEADDR(netgui_render, (LPVOID)0x14010DA00,
 	return netgui_render(a1, a2, a3);
 }
 
+
+AUTOHOOK_ABSOLUTEADDR(decompress_file, (LPVOID)0x14026A2E0,
+	const char*, __fastcall, (int a1,const char* a2,__int64 a3,int a4))
+{
+	const char* ret = decompress_file(a1, a2, a3, a4);
+	//spdlog::info("Decompress: {} ", a2);
+	return ret;
+}
+
+AUTOHOOK_ABSOLUTEADDR(LoadEmbeddedLuaFile, (LPVOID)0x1400F13B0,
+	__int64, __fastcall, (lua_State* a1, const char* a2))
+{
+	//if(a1 == 0x1437C4120)
+	spdlog::info("Load: {}", a2);
+	
+	if (std::ifstream is{ a2,std::ios::binary | std::ios::ate })
+	{
+		auto size = is.tellg();
+		std::string str(size, '\0');
+		is.seekg(0);
+		if (is.read(&str[0], size)) 
+		{
+			spdlog::info("[External Lua] Loading external file: {} ", a2);
+			return g_pLua->luaL_loadbufferx(a1, str.c_str(), size, strstr(a2,"Data/"), 0);
+				
+		}
+
+	}
+	else 
+	{
+		spdlog::error("[External Lua] Error while loading {} externally. Does the file exist?", a2);
+	}
+	
+	return LoadEmbeddedLuaFile(a1,a2);
+}
 
 
 AUTOHOOK_ABSOLUTEADDR(game_update, (LPVOID)0x1400DAD40,

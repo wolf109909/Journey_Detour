@@ -21,6 +21,7 @@ namespace RenderTest
 	int i = 0;
 	void RenderTest()
 	{
+		//spdlog::info("render");
 		i = 0;
 		g_pGame->r_AddText(g_pGame->m_Game->Render, "Dude Position:", offset_x, offset_y - font_size * i, font_size, color); i++;
 		g_pGame->r_AddText(g_pGame->m_Game->Render, std::to_string(g_pGame->m_LocalDude->XPos).c_str(), offset_x, offset_y - font_size * i, font_size, color); i++;

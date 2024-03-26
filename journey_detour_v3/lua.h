@@ -26,6 +26,8 @@ typedef int(__cdecl* _tointeger)(lua_State*, int);
 
 typedef int(__cdecl* _luaStatus)(lua_State*);
 
+typedef int(__cdecl* _luaL_loadbufferx)(lua_State* L, const char* buff, size_t size, const char* name, const char* mode);
+
 typedef int(__cdecl* _luaL_loadstring)(lua_State*, const char*);
 
 typedef const char* (__cdecl* _lua_tostring)(lua_State*, int, size_t*);
@@ -71,6 +73,7 @@ public:
 	lua_State* L;
 
 	// Lua type to names
+	_luaL_loadbufferx luaL_loadbufferx;
 	_luaL_loadstring luaL_loadstring;
 	_lua_pcall lua_pcall;
 	_luaL_loadfilex luaL_loadfilex;
