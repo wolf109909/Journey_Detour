@@ -1,0 +1,21 @@
+{
+    "name": "journeydetour",
+    "version": "3.9",
+    "homepage": "https://github.com/wolf109909/Journey_Detour",
+    "description": "journey things",
+    "dependencies": 
+    [
+        {
+            "name":"spdlog"
+        },
+        {
+            "name":"imgui",
+            "features": ["dx11-binding","win32-binding"]
+        },
+        {
+            "name":"minhook"
+        }
+
+    ]
+
+}
